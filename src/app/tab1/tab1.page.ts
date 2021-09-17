@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { MovieSearchService } from '../services/movies-search/movie-search.service';
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +9,22 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  results: Observable<any>;
+  searchTerm = '';
+  resultsArray: any[] = [];
+
+  constructor(private movieSearchService: MovieSearchService) {}
+
+  searchChanged(){
+    // getting JSON object from query
+    this.results = this.movieSearchService.searchData(this.searchTerm);
+    
+    // putting data into array
+    this.results.subscribe(res =>{
+      this.resultsArray = res.results;
+      //console.log("resultsArray ", this.resultsArray)
+    });
+
+  }
 
 }
