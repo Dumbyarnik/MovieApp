@@ -1,9 +1,37 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>movies-details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{information?.original_language}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+  <ion-card *ngIf="information">
+    <ion-card-header>
+      <ion-card-title>
+        {{information.title}}
+      </ion-card-title>
+      <ion-card-subtitle>
+        {{information.genres[0].name}}, {{information.genres[1].name}}
+      </ion-card-subtitle>
+    </ion-card-header>
 
+    <ion-card-content text-center>
+      <img [src]='"https://image.tmdb.org/t/p/w500" + information.poster_path' class="info-img">
+      {{information.overview}}
+
+      <ion-item lines="none">
+        <ion-icon name="clipboard" slot="start"></ion-icon>
+        <ion-label text-wrap>{{information.spoken_languages[0].english_name}}</ion-label>
+      </ion-item>
+
+      <ion-button expand="full" (click)="openWebsite()"
+      *ngIf="information.homepage && information.homepage != null">
+        Open Website
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
 </ion-content>
