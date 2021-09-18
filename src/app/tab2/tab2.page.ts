@@ -14,13 +14,16 @@ export class Tab2Page implements OnInit {
   constructor(private db: DatabaseService) {}
 
   ngOnInit(): void {
+    console.log("are we here?");
     this.db.getDatabaseState().subscribe(rdy => {
-      if (rdy) {
+      //if (rdy) {
         this.db.getUsers().subscribe(users => {
           this.users = users;
         })
-      }
+      //}
     });
+
+    this.db.addUser("user2", "user2");
   }
 
 }

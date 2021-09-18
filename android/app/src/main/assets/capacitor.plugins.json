@@ -20,6 +20,10 @@
 		"classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
 	},
 	{
+		"pkg": "@capacitor/storage",
+		"classpath": "com.capacitorjs.plugins.storage.StoragePlugin"
+	},
+	{
 		"pkg": "capacitor-sqlite",
 		"classpath": "com.jeep.plugin.capacitor.CapacitorSQLite"
 	}

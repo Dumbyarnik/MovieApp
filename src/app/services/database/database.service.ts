@@ -51,6 +51,8 @@ export class DatabaseService {
       // my code 
       this.database.executeSql('CREATE TABLE IF NOT EXISTS users(name TEXT PRIMARY KEY,password TEXT);');
       this.database.executeSql('INSERT or IGNORE INTO users VALUES ("user", "user");');
+      this.database.executeSql('INSERT or IGNORE INTO users VALUES ("user1", "user1");');
+      this.loadUsers();
     }
 
     getDatabaseState() {
@@ -62,6 +64,7 @@ export class DatabaseService {
     }
 
     loadUsers() {
+      console.log("we are in loadUsers");
       return this.database.executeSql('SELECT * FROM users', []).then(data => {
         let users: User[] = [];
    
@@ -72,10 +75,22 @@ export class DatabaseService {
               name: data.rows.item(i).name, 
               password: data.rows.item(i).password 
              });
+             
           }
         }
         this.users.next(users);
+        console.log("our users loadUsers", JSON.stringify(this.users));
       });
+    }
+
+    addUser(name, password) {
+      console.log("we are in addUser");
+      let data = [name, password];
+      /*return this.database.executeSql('INSERT INTO users (name, password) VALUES (?, ?)', data).then(data => {
+        this.loadUsers();
+      });*/
+      this.database.executeSql('INSERT INTO users (name, password) VALUES (?, ?)', data);
+      this.loadUsers();
     }
    
 }
