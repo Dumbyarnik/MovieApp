@@ -38,23 +38,23 @@ export class WatchedMovieEditPage implements OnInit {
 
     // checking if the movie is in diary
     // and therefore setting stars and review
-    this.isMovieInDiary = this.moviesService.isMovieInDiary(this.id);
-    console.log("is in diary: ", this.isMovieInDiary);
-    if (this.isMovieInDiary){
-      // getting movies user wants to watch from storage
-      const user = await Storage.get({ key: 'user'});
-      const data = JSON.parse(user.value);
-    
-      for (var i in data[0].movies_watched){
-        if (data[0].movies_watched[i][0] == this.id){
-          this.review = data[0].movies_watched[i][2];
-          this.stars = data[0].movies_watched[i][1];
-        }
+    const user = await Storage.get({ key: 'user'});
+    const data = JSON.parse(user.value);
+
+    for (var i in data[0].movies_watched){
+      if (data[0].movies_watched[i][0] == this.id){
+        this.isMovieInDiary = true;
+        this.review = data[0].movies_watched[i][2];
+        this.stars = data[0].movies_watched[i][1];
       }
     }
   }
 
   change(event: any){
+    
+  }
+
+  submit(){
     
   }
 
