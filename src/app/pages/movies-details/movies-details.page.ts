@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { Storage } from '@capacitor/storage';
+import { MoviesService } from 'src/app/services/movies/movies.service';
 
 
 @Component({
@@ -16,7 +17,8 @@ export class MoviesDetailsPage implements OnInit {
 
   // ActivatedRoute we need for retrieving id
   constructor(private activatedRoute: ActivatedRoute, 
-    private apiService: ApiService) { }
+    private apiService: ApiService,
+    private moviesService: MoviesService) { }
 
   ngOnInit() {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -41,6 +43,8 @@ export class MoviesDetailsPage implements OnInit {
       key: 'user',
       value: JSON.stringify(data),
     });
+
+    this.moviesService.loadMoviesToWatch();
   }
 
 }

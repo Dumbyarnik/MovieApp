@@ -11,7 +11,7 @@ import { ApiService } from '../services/api/api.service';
 export class Tab1Page {
 
   // for getting information from api
-  moviesJSON: Observable<any>;
+  moviesObservable: Observable<any>;
   // for showing them on html page
   moviesArray: any[] = [];
   // for giving the search string
@@ -20,11 +20,11 @@ export class Tab1Page {
   constructor(private apiService: ApiService) {}
 
   searchChanged(){
-    // getting JSON object from query
-    this.moviesJSON = this.apiService.searchData(this.searchTerm);
+    // getting Observable object from query
+    this.moviesObservable = this.apiService.searchData(this.searchTerm);
     
     // putting data into array
-    this.moviesJSON.subscribe(res =>{
+    this.moviesObservable.subscribe(res =>{
       this.moviesArray = res.results;
     });
 
