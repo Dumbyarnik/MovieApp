@@ -18,7 +18,7 @@ export class MoviesDetailsPage implements OnInit {
   id: string;
 
   // for checking if the movie in the watchlist
-  movies_want: any[] = [];  
+  //movies_want: any[] = [];  
 
   // variable to store info about the movie
   information = null;
@@ -32,9 +32,9 @@ export class MoviesDetailsPage implements OnInit {
     }
 
   async ngOnInit() {
-
     // getting the information about the movie
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    console.log(this.id);
     this.apiService.getDetails(this.id).subscribe(result =>{
       this.information = result;
     });
