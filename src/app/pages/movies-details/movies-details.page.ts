@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MovieSearchService } from 'src/app/services/movies-search/movie-search.service';
+import { ApiService } from 'src/app/services/api/api.service';
+
 
 @Component({
   selector: 'app-movies-details',
@@ -14,13 +15,12 @@ export class MoviesDetailsPage implements OnInit {
 
   // ActivatedRoute we need for retrieving id
   constructor(private activatedRoute: ActivatedRoute, 
-    private movieService: MovieSearchService) { }
+    private apiService: ApiService) { }
 
   ngOnInit() {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
 
-    this.movieService.getDetails(id).subscribe(result =>{
-      console.log('details: ', result);
+    this.apiService.getDetails(id).subscribe(result =>{
       this.information = result;
     });
   }

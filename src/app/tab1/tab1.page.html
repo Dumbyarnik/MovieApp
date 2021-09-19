@@ -16,7 +16,7 @@
   <ion-searchbar [(ngModel)]="searchTerm" 
   (ionChange)="searchChanged($event)"></ion-searchbar>
 
-  <ion-list *ngFor="let item of resultsArray">
+  <ion-list *ngFor="let item of moviesArray">
     <ion-item [routerLink]="'/tabs/tab1/' + item.id">
       <ion-avatar slot="start">
         <img [src]='"https://image.tmdb.org/t/p/w500" + item.poster_path' 
