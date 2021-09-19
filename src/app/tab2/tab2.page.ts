@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../services/api/api.service';
 import { MoviesService } from '../services/movies/movies.service';
 
 
@@ -13,10 +12,7 @@ import { MoviesService } from '../services/movies/movies.service';
 export class Tab2Page implements OnInit {
 
   // for showing them on html page
-  movies_want: any[] = [];
-  // for retrieving infor about the movie 
-  information = null;
-  
+  movies_want: any[] = [];  
 
   constructor(private moviesService: MoviesService) {}
 
@@ -27,9 +23,10 @@ export class Tab2Page implements OnInit {
   async LoadMoviesToWatch(){
     // subscribing to movies to watch     
     this.moviesService.getMoviesToWatch().subscribe(res => {
-      this.movies_want = null;
+      this.movies_want = [];
       this.movies_want = res;
     });
+    console.log(this.movies_want);
   }
 
 }
