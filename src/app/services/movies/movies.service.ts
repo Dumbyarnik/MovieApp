@@ -91,7 +91,6 @@ export class MoviesService {
       });
       this.movies_watched.push(tmpMovie);
     }
-
     this.movies_watched_behaviour.next(this.movies_watched);
   }
 
@@ -111,5 +110,17 @@ export class MoviesService {
       }
     }
     return false;
+  }
+
+  async getReview(id:string): Promise<string>{
+    // getting movies user wants to watch from storage
+    const user = await Storage.get({ key: 'user'});
+    const data = JSON.parse(user.value);
+    
+    for (var i in data[0].movies_watched){
+      if (data[0].movies_watched[i][0] == id){
+        return data[0].movies_watched[i][2];
+      }
+    }
   }
 }
