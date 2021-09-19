@@ -12,13 +12,18 @@ import { MoviesService } from 'src/app/services/movies/movies.service';
 })
 export class MoviesDetailsPage implements OnInit {
 
+  // movie id
+  id: string;
+
   // for checking if the movie in the watchlist
   movies_want: any[] = [];  
 
   // variable to store info about the movie
   information = null;
+
   // for WatchList Toggle
   isWatchlistToggled: boolean;
+
   // to resolve the problem when movie is already on the watchList,
   // then do not trigger saveToWatchList() function
   isWatchlistToggledFirstTime: boolean = false;
@@ -32,8 +37,8 @@ export class MoviesDetailsPage implements OnInit {
 
   async ngOnInit() {
     // getting the information about the movie
-    let id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.apiService.getDetails(id).subscribe(result =>{
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.apiService.getDetails(this.id).subscribe(result =>{
       this.information = result;
     });
 
@@ -43,7 +48,7 @@ export class MoviesDetailsPage implements OnInit {
     const movies_want_int = data[0].movies_want;
     this.isWatchlistToggled = false;
     for (var i in movies_want_int){
-      if (movies_want_int[i] == id){
+      if (movies_want_int[i] == this.id){
         this.isWatchlistToggled = true;
         this.isWatchlistToggledFirstTime = true;
       }
@@ -60,6 +65,9 @@ export class MoviesDetailsPage implements OnInit {
       if (this.isWatchlistToggled == true){
         this.saveToWatchlist();
       }
+      else{
+        this.deleteToWatchlist();
+      }
     }
     
   }
@@ -70,6 +78,24 @@ export class MoviesDetailsPage implements OnInit {
     var data = JSON.parse(user.value);
     data[0].movies_want.push(this.information.id);
     
+    await Storage.set({
+      key: 'user',
+      value: JSON.stringify(data),
+    });
+
+    this.moviesService.loadMoviesToWatch();
+  }
+
+  async deleteToWatchlist(){
+    var user = await Storage.get({ key: 'user'});
+    var data = JSON.parse(user.value);
+
+    // deleting the item from the array
+    var item_number: number = +this.id;
+    data[0].movies_want.forEach((element, index)=>{
+      if(element==item_number) data[0].movies_want.splice(index,1);
+    });
+  
     await Storage.set({
       key: 'user',
       value: JSON.stringify(data),

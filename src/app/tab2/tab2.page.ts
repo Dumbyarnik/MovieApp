@@ -26,7 +26,6 @@ export class Tab2Page implements OnInit {
       this.movies_want = [];
       this.movies_want = res;
     });
-    console.log(this.movies_want);
   }
 
 }
