@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { Storage } from '@capacitor/storage';
 import { MoviesService } from 'src/app/services/movies/movies.service';
+import { Router } from '@angular/router';
+import { ActionSheetController } from '@ionic/angular';
 
 
 @Component({
@@ -31,8 +33,9 @@ export class MoviesDetailsPage implements OnInit {
   // ActivatedRoute we need for retrieving id
   constructor(private activatedRoute: ActivatedRoute, 
     private apiService: ApiService,
-    private moviesService: MoviesService) { 
-    
+    private moviesService: MoviesService,
+    private route: Router,
+    public actionSheetController: ActionSheetController) { 
     }
 
   async ngOnInit() {
@@ -47,7 +50,7 @@ export class MoviesDetailsPage implements OnInit {
     const user = await Storage.get({ key: 'user'});
     const data = JSON.parse(user.value);
     const movies_want_int = data[0].movies_want;
-    this.isWatchlistToggled = false;
+
     for (var i in movies_want_int){
       if (movies_want_int[i] == this.id){
         this.isWatchlistToggled = true;
@@ -59,10 +62,9 @@ export class MoviesDetailsPage implements OnInit {
 
   // toggle - save to watchlist
   notifyWatchlistToggle(){
-
+    
     if (this.isWatchlistToggledFirstTime){
       this.isWatchlistToggledFirstTime = false;
-      this.deleteToWatchlist();
     }
     else {
       if (this.isWatchlistToggled == true){
@@ -90,7 +92,6 @@ export class MoviesDetailsPage implements OnInit {
   }
 
   async deleteToWatchlist(){
-
     var user = await Storage.get({ key: 'user'});
     var data = JSON.parse(user.value);
 
@@ -107,12 +108,185 @@ export class MoviesDetailsPage implements OnInit {
     this.moviesService.loadMoviesToWatch();
   }
 
-
-
   // button - open website
   openWebsite(){
     window.open(this.information.homepage, '_blank');
   }
+
+  async presentActionSheet(){
+
+    // 2 variables for understanding which action sheet to open
+    const isInWatchlist = this.moviesService.isMovieInWatchlist(this.id);
+    const isInDiary = this.moviesService.isMovieInDiary(this.id);
+    console.log('watchlist', isInWatchlist);
+    console.log('diary', isInDiary);
+
+
+    if (isInWatchlist && !isInDiary){
+      const actionSheet = await this.actionSheetController.create({
+
+        header: 'what to do',
+        buttons: [
+          {
+            text: 'Move Out of Watchlist',
+            icon: 'eye',
+            handler: () => {
+              console.log('first clicked');
+            }
+          },
+          {
+            text: 'Move To Diary',
+            icon: 'heart',
+            handler: () => {
+              console.log('second clicked');
+            }
+          }, 
+          {
+            text: 'Cancel',
+            icon: 'close',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          }
+        ],
+        animated: true,
+        backdropDismiss: true,
+        keyboardClose: true,
+        mode: 'ios'
+      });
+
+      await actionSheet.present();
+    }
+    else if (!isInWatchlist && isInDiary){
+      const actionSheet = await this.actionSheetController.create({
+
+        header: 'what to do',
+        buttons: [
+          {
+            text: 'Move In Watchlist',
+            icon: 'eye',
+            handler: () => {
+              console.log('first clicked');
+            }
+          },
+          {
+            text: 'Edit',
+            icon: 'heart',
+            handler: () => {
+              console.log('second clicked');
+            }
+          }, 
+          {
+            text: 'Move Out Of Diary',
+            icon: 'trash',
+            role: 'destructive',
+            handler: () => {
+              console.log('second clicked');
+            }
+          },
+          {
+            text: 'Cancel',
+            icon: 'close',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          }
+        ],
+        animated: true,
+        backdropDismiss: true,
+        keyboardClose: true,
+        mode: 'ios'
+      });
+
+      await actionSheet.present();
+    }
+    else if (!isInWatchlist && !isInDiary){
+      const actionSheet = await this.actionSheetController.create({
+
+        header: 'what to do',
+        buttons: [
+          {
+            text: 'Move In Watchlist',
+            icon: 'eye',
+            handler: () => {
+              console.log('first clicked');
+            }
+          },
+          {
+            text: 'Move In Diary',
+            icon: 'heart',
+            handler: () => {
+              console.log('second clicked');
+            }
+          },
+          {
+            text: 'Cancel',
+            icon: 'close',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          }
+        ],
+        animated: true,
+        backdropDismiss: true,
+        keyboardClose: true,
+        mode: 'ios'
+      });
+
+      await actionSheet.present();
+    }
+    else {
+      const actionSheet = await this.actionSheetController.create({
+
+        header: 'what to do',
+        buttons: [
+          {
+            text: 'Move Out Of Watchlist',
+            icon: 'eye',
+            handler: () => {
+              console.log('first clicked');
+            }
+          },
+          {
+            text: 'Edit',
+            icon: 'heart',
+            handler: () => {
+              console.log('second clicked');
+            }
+          },
+          {
+            text: 'Move Out of Diary',
+            icon: 'heart',
+            handler: () => {
+              console.log('second clicked');
+            }
+          },
+          {
+            text: 'Cancel',
+            icon: 'close',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            }
+          }
+        ],
+        animated: true,
+        backdropDismiss: true,
+        keyboardClose: true,
+        mode: 'ios'
+      });
+
+      await actionSheet.present();
+    }
+
+
+    
+  }
+
+  
 
 
 }

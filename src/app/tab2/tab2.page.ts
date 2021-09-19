@@ -38,8 +38,6 @@ export class Tab2Page implements OnInit {
       this.movies_watched = [];
       this.movies_watched = res;
     });
-
-    console.log(this.movies_watched);
   }
 
 }

@@ -94,4 +94,22 @@ export class MoviesService {
 
     this.movies_watched_behaviour.next(this.movies_watched);
   }
+
+  isMovieInWatchlist(id: string): boolean{
+    for (var i in this.movies_want){
+      if (this.movies_want[i].id == id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  isMovieInDiary(id: string): boolean{
+    for (var i in this.movies_watched){
+      if (this.movies_watched[i].id == id){
+        return true;
+      }
+    }
+    return false;
+  }
 }
