@@ -13,18 +13,48 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-list *ngFor="let item of movies_want">
-    <ion-item [routerLink]="'/tabs/tab1/' + item.id">
-      <ion-avatar slot="start">
-        <img [src]='item.image'>
-      </ion-avatar>
+  <ion-segment [(ngModel)]="selectedView">
+    <ion-segment-button value="watchlist">
+      <ion-label>Watchlist</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="watched">
+      <ion-label>Watched</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-      <ion-label text-wrap>
-        <h3>{{item.name}}</h3>
-        {{item.year}}
-      </ion-label>
-    </ion-item>  
-  </ion-list>
+  <div [ngSwitch]="selectedView">
+    <div *ngSwitchCase="'watchlist'">
+      <ion-list *ngFor="let item of movies_want">
+        <ion-item [routerLink]="'/tabs/tab1/' + item.id">
+          <ion-avatar slot="start">
+            <img [src]='item.image'>
+          </ion-avatar>
+    
+          <ion-label text-wrap>
+            <h3>{{item.name}}</h3>
+            {{item.year}}
+          </ion-label>
+        </ion-item>  
+      </ion-list>
+    </div>
+ 
+    <div *ngSwitchCase="'watched'">
+      <ion-list *ngFor="let item of movies_watched">
+        <ion-item [routerLink]="'/tabs/tab1/' + item.id">
+          <ion-avatar slot="start">
+            <img [src]='item.image'>
+          </ion-avatar>
+    
+          <ion-label text-wrap>
+            <h3>{{item.name}}</h3>
+            {{item.year}}
+          </ion-label>
+        </ion-item>  
+      </ion-list>
+    </div>
+  </div>
+
+  
 
 
 </ion-content>

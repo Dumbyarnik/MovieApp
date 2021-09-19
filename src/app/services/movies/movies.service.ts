@@ -92,6 +92,6 @@ export class MoviesService {
       this.movies_watched.push(tmpMovie);
     }
 
-    this.movies_watched_behaviour.next(this.movies_want);
+    this.movies_watched_behaviour.next(this.movies_watched);
   }
 }

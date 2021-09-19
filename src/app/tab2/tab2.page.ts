@@ -11,6 +11,8 @@ import { MoviesService } from '../services/movies/movies.service';
 
 export class Tab2Page implements OnInit {
 
+  selectedView = 'watchlist';
+
   // for showing them on html page
   movies_want: any[] = [];  
   movies_watched: any[] = [];  
@@ -19,6 +21,7 @@ export class Tab2Page implements OnInit {
 
   ngOnInit(): void {
     this.LoadMoviesToWatch();   
+    this.LoadMoviesWatched();
   }
 
   async LoadMoviesToWatch(){
@@ -35,6 +38,8 @@ export class Tab2Page implements OnInit {
       this.movies_watched = [];
       this.movies_watched = res;
     });
+
+    console.log(this.movies_watched);
   }
 
 }
