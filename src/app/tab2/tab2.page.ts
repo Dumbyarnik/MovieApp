@@ -13,6 +13,7 @@ export class Tab2Page implements OnInit {
 
   // for showing them on html page
   movies_want: any[] = [];  
+  movies_watched: any[] = [];  
 
   constructor(private moviesService: MoviesService) {}
 
@@ -25,6 +26,14 @@ export class Tab2Page implements OnInit {
     this.moviesService.getMoviesToWatch().subscribe(res => {
       this.movies_want = [];
       this.movies_want = res;
+    });
+  }
+
+  async LoadMoviesWatched(){
+    // subscribing to watched movies
+    this.moviesService.getMoviesWatched().subscribe(res => {
+      this.movies_watched = [];
+      this.movies_watched = res;
     });
   }
 

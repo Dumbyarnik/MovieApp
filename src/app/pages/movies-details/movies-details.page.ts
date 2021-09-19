@@ -36,6 +36,7 @@ export class MoviesDetailsPage implements OnInit {
     }
 
   async ngOnInit() {
+
     // getting the information about the movie
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.apiService.getDetails(this.id).subscribe(result =>{
@@ -58,8 +59,10 @@ export class MoviesDetailsPage implements OnInit {
 
   // toggle - save to watchlist
   notifyWatchlistToggle(){
+
     if (this.isWatchlistToggledFirstTime){
       this.isWatchlistToggledFirstTime = false;
+      this.deleteToWatchlist();
     }
     else {
       if (this.isWatchlistToggled == true){
@@ -87,13 +90,13 @@ export class MoviesDetailsPage implements OnInit {
   }
 
   async deleteToWatchlist(){
+
     var user = await Storage.get({ key: 'user'});
     var data = JSON.parse(user.value);
 
     // deleting the item from the array
-    var item_number: number = +this.id;
     data[0].movies_want.forEach((element, index)=>{
-      if(element==item_number) data[0].movies_want.splice(index,1);
+      if(element==this.id) data[0].movies_want.splice(index,1);
     });
   
     await Storage.set({
