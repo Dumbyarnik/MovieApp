@@ -1,29 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService, User } from '../services/database/database.service';
+import { MoviesService } from '../services/movies/movies.service';
+
+
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
+
 export class Tab2Page implements OnInit {
 
-  users: User[] = [];
-  user = {};
+  // for showing them on html page
+  movies_want: any[] = [];  
 
-  constructor(private db: DatabaseService) {}
+  constructor(private moviesService: MoviesService) {}
 
   ngOnInit(): void {
-    console.log("are we here?");
-    this.db.getDatabaseState().subscribe(rdy => {
-      //if (rdy) {
-        this.db.getUsers().subscribe(users => {
-          this.users = users;
-        })
-      //}
-    });
+    this.LoadMoviesToWatch();   
+  }
 
-    this.db.addUser("user2", "user2");
+  async LoadMoviesToWatch(){
+    // subscribing to movies to watch     
+    this.moviesService.getMoviesToWatch().subscribe(res => {
+      this.movies_want = [];
+      this.movies_want = res;
+    });
   }
 
 }

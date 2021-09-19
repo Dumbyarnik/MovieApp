@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@capacitor/storage';
+import { MoviesService } from '../services/movies/movies.service';
 
 @Component({
   selector: 'app-tab3',
@@ -8,30 +9,39 @@ import { Storage } from '@capacitor/storage';
 })
 export class Tab3Page implements OnInit {
 
-  constructor() {}
+  constructor(private moviesService: MoviesService) {}
 
   ngOnInit(){
 
   }
 
   async setItem(){
-    const cartvalue = JSON.stringify([{
-      id: 1,
-      product: 'Apple'
-    }, {
-      id: 2,
-      product: 'Banana'
+    const user = JSON.stringify([{
+      name: 'user',
+      password: 'user',
+      movies_want: [12, 13, 14]
     }])
 
     await Storage.set({
-      key: 'products',
-      value: cartvalue
+      key: 'user',
+      value: user
     })
+
+    this.moviesService.loadMoviesToWatch();
   }
 
-  async getItem(){
-    const products = await Storage.get({ key: 'products'});
-    console.log('our data', JSON.parse(products.value));
+  async showItem(){
+    const user = await Storage.get({ key: 'user'});
+    const data = JSON.parse(user.value);
+    console.log('data: ', data[0].movies_want);
+
+    this.moviesService.loadMoviesToWatch();
+  }
+
+  async clearStorage(){
+    await Storage.clear();
+
+    //this.moviesService.loadMoviesToWatch();
   }
 
 }

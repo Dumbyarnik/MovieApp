@@ -15,6 +15,7 @@ export interface User {
 @Injectable({
   providedIn: 'root'
 })
+
 export class DatabaseService {
   private database: SQLiteObject;
   private dbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);

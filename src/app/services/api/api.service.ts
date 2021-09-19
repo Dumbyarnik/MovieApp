@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MovieSearchService {
+
+export class ApiService {
 
   // url of the database and api key 
   url = 'https://api.themoviedb.org/';
@@ -21,6 +22,7 @@ export class MovieSearchService {
   }
 
   getDetails(id){
-    return this.http.get(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.apiKey}`);
+    return this.http
+    .get(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.apiKey}`);
   }
 }
