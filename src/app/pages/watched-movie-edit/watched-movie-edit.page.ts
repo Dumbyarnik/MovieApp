@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Storage } from '@capacitor/storage';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-watched-movie-edit',
@@ -18,7 +19,9 @@ export class WatchedMovieEditPage implements OnInit {
   // review of the user
   review: any;
   // if the movie is already in diary
-  isMovieInDiary: boolean;
+  private isMovieInDiary: boolean = false;
+  // position of movie in JSON array in Storage
+  private moviePositionStorage: string = '-1';
 
   // variable to store info about the movie
   information = null;
@@ -26,8 +29,8 @@ export class WatchedMovieEditPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, 
     private apiService: ApiService,
     private moviesService: MoviesService,
-    private route: Router,
-    public actionSheetController: ActionSheetController) { }
+    public actionSheetController: ActionSheetController,
+    private location: Location) { }
 
   async ngOnInit() {
     // getting the information about the movie
@@ -46,15 +49,49 @@ export class WatchedMovieEditPage implements OnInit {
         this.isMovieInDiary = true;
         this.review = data[0].movies_watched[i][2];
         this.stars = data[0].movies_watched[i][1];
+        this.moviePositionStorage = i;
       }
     }
   }
 
   change(event: any){
-    
+    this.stars = event.detail.value;
   }
 
-  submit(){
+  async submit(){
+    // data drom storage
+    var user = await Storage.get({ key: 'user'});
+    var data = JSON.parse(user.value);
+
+    if (this.review == undefined){
+      this.review = '';
+    }
+
+    if (this.isMovieInDiary){
+      data[0].movies_watched[this.moviePositionStorage][1] = this.stars;
+      data[0].movies_watched[this.moviePositionStorage][1] = this.review;
+    }
+    else {       
+      data[0].movies_watched.push([this.information.id,
+      this.stars, this.review]);
+
+      // deleting the item from watchlist
+      data[0].movies_want.forEach((element, index)=>{
+        if(element==this.id) data[0].movies_want.splice(index,1);
+      });
+    }
+
+    await Storage.set({
+      key: 'user',
+      value: JSON.stringify(data),
+    });
+
+    this.moviesService.loadMoviesToWatch();
+    this.moviesService.loadMoviesWatched();
+
+    // going back to previous page
+    this.location.back();
+
     
   }
 

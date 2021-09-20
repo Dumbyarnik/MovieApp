@@ -38,6 +38,7 @@ export class Tab3Page implements OnInit {
     console.log('data: ', data[0]);
 
     this.moviesService.loadMoviesToWatch();
+    this.moviesService.loadMoviesWatched();
   }
 
   async clearStorage(){

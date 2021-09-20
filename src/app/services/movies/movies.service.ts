@@ -44,6 +44,8 @@ export class MoviesService {
     const data = JSON.parse(user.value);
     const movies_want_int = data[0].movies_want;
 
+    console.log(data[0].movies_want);
+
     this.movies_want = [];
 
     for (var i in movies_want_int){
@@ -112,15 +114,5 @@ export class MoviesService {
     return false;
   }
 
-  async getReview(id:string): Promise<string>{
-    // getting movies user wants to watch from storage
-    const user = await Storage.get({ key: 'user'});
-    const data = JSON.parse(user.value);
-    
-    for (var i in data[0].movies_watched){
-      if (data[0].movies_watched[i][0] == id){
-        return data[0].movies_watched[i][2];
-      }
-    }
-  }
+
 }

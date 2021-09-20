@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviesService } from '../services/movies/movies.service';
 
-
-
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
