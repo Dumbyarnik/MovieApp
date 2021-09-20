@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Storage } from '@capacitor/storage';
 import {Location} from '@angular/common';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-watched-movie-edit',
@@ -23,6 +24,7 @@ export class WatchedMovieEditPage implements OnInit {
   // position of movie in JSON array in Storage
   private moviePositionStorage: string = '-1';
 
+
   // variable to store info about the movie
   information = null;
 
@@ -30,9 +32,11 @@ export class WatchedMovieEditPage implements OnInit {
     private apiService: ApiService,
     private moviesService: MoviesService,
     public actionSheetController: ActionSheetController,
-    private location: Location) { }
+    private location: Location,
+    private router: Router) { }
 
   async ngOnInit() {
+
     // getting the information about the movie
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.apiService.getDetails(this.id).subscribe(result =>{
@@ -69,7 +73,7 @@ export class WatchedMovieEditPage implements OnInit {
 
     if (this.isMovieInDiary){
       data[0].movies_watched[this.moviePositionStorage][1] = this.stars;
-      data[0].movies_watched[this.moviePositionStorage][1] = this.review;
+      data[0].movies_watched[this.moviePositionStorage][2] = this.review;
     }
     else {       
       data[0].movies_watched.push([this.information.id,
@@ -88,11 +92,12 @@ export class WatchedMovieEditPage implements OnInit {
 
     this.moviesService.loadMoviesToWatch();
     this.moviesService.loadMoviesWatched();
+    
+    // like that we understand that we were somewhere
+    // console.log(this.route.navigated);
 
     // going back to previous page
     this.location.back();
-
-    
   }
 
 }

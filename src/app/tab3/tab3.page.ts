@@ -29,6 +29,7 @@ export class Tab3Page implements OnInit {
       value: user
     })
 
+    this.moviesService.loadMoviesWatched();
     this.moviesService.loadMoviesToWatch();
   }
 

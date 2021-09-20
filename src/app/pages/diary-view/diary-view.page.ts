@@ -1,41 +1,55 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ApiService } from 'src/app/services/api/api.service';
-import { Storage } from '@capacitor/storage';
-import { MoviesService } from 'src/app/services/movies/movies.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
-
+import { ApiService } from 'src/app/services/api/api.service';
+import { MoviesService } from 'src/app/services/movies/movies.service';
+import { Storage } from '@capacitor/storage';
 
 @Component({
-  selector: 'app-movies-details',
-  templateUrl: './movies-details.page.html',
-  styleUrls: ['./movies-details.page.scss'],
+  selector: 'app-diary-view',
+  templateUrl: './diary-view.page.html',
+  styleUrls: ['./diary-view.page.scss'],
 })
-export class MoviesDetailsPage implements OnInit {
+export class DiaryViewPage implements OnInit {
 
   // movie id
   id: string;
 
+  stars: string;
+  review:string = '';
+
   // variable to store info about the movie
   information = null;
 
-  // ActivatedRoute we need for retrieving id
   constructor(private activatedRoute: ActivatedRoute, 
     private apiService: ApiService,
     private moviesService: MoviesService,
     private route: Router,
-    public actionSheetController: ActionSheetController) { 
-    }
+    public actionSheetController: ActionSheetController) { }
 
   async ngOnInit() {
+
     // getting the information about the movie
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.apiService.getDetails(this.id).subscribe(result =>{
       this.information = result;
     });
+
+    // checking if the movie is in diary
+    // and therefore setting stars and review
+    const user = await Storage.get({ key: 'user'});
+    const data = JSON.parse(user.value);
+
+    for (var i in data[0].movies_watched){
+      if (data[0].movies_watched[i][0] == this.id){
+        this.review = data[0].movies_watched[i][2];
+        this.stars = data[0].movies_watched[i][1];
+      }
+    }
+
+    console.log('initialize');
   }
-  
+
   async saveToWatchlist(){
     var user = await Storage.get({ key: 'user'});
     var data = JSON.parse(user.value);
@@ -81,26 +95,22 @@ export class MoviesDetailsPage implements OnInit {
     });
 
     this.moviesService.loadMoviesWatched();
+
+    this.route.navigate(['/tabs/tab2']);
   }
 
   goToEdit(){
     this.route.navigate(['/tabs/tab2/edit/' + this.id]);
   }
 
-  // button - open website
-  openWebsite(){
-    window.open(this.information.homepage, '_blank');
-  }
-
   // button - ActionSheet
   async presentActionSheet(){
 
-    // 2 variables for understanding which action sheet to open
+    // to understand if movie in watchlist
     const isInWatchlist = this.moviesService.isMovieInWatchlist(this.id);
-    const isInDiary = this.moviesService.isMovieInDiary(this.id);
 
     // 4 different conditions for actionSheet
-    if (isInWatchlist && !isInDiary){
+    if (isInWatchlist){
       const actionSheet = await this.actionSheetController.create({
 
         header: 'what to do',
@@ -110,42 +120,6 @@ export class MoviesDetailsPage implements OnInit {
             icon: 'eye',
             handler: () => {
               this.deleteToWatchlist();
-            }
-          },
-          {
-            text: 'Move To Diary',
-            icon: 'heart',
-            handler: () => {
-              this.goToEdit();
-            }
-          }, 
-          {
-            text: 'Cancel',
-            icon: 'close',
-            role: 'cancel',
-            handler: () => {
-              //console.log('Cancel clicked');
-            }
-          }
-        ],
-        animated: true,
-        backdropDismiss: true,
-        keyboardClose: true,
-        mode: 'ios'
-      });
-
-      await actionSheet.present();
-    }
-    else if (!isInWatchlist && isInDiary){
-      const actionSheet = await this.actionSheetController.create({
-
-        header: 'what to do',
-        buttons: [
-          {
-            text: 'Move In Watchlist',
-            icon: 'eye',
-            handler: () => {
-              this.saveToWatchlist();
             }
           },
           {
@@ -162,43 +136,7 @@ export class MoviesDetailsPage implements OnInit {
             handler: () => {
               this.deleteFromDiary();
             }
-          },
-          {
-            text: 'Cancel',
-            icon: 'close',
-            role: 'cancel',
-            handler: () => {
-              //console.log('Cancel clicked');
-            }
-          }
-        ],
-        animated: true,
-        backdropDismiss: true,
-        keyboardClose: true,
-        mode: 'ios'
-      });
-
-      await actionSheet.present();
-    }
-    else if (!isInWatchlist && !isInDiary){
-      const actionSheet = await this.actionSheetController.create({
-
-        header: 'what to do',
-        buttons: [
-          {
-            text: 'Move In Watchlist',
-            icon: 'eye',
-            handler: () => {
-              this.saveToWatchlist();
-            }
-          },
-          {
-            text: 'Move In Diary',
-            icon: 'heart',
-            handler: () => {
-              this.goToEdit();
-            }
-          },
+          }, 
           {
             text: 'Cancel',
             icon: 'close',
@@ -222,10 +160,10 @@ export class MoviesDetailsPage implements OnInit {
         header: 'what to do',
         buttons: [
           {
-            text: 'Move Out Of Watchlist',
+            text: 'Move In Watchlist',
             icon: 'eye',
             handler: () => {
-              this.deleteToWatchlist();
+              this.saveToWatchlist();
             }
           },
           {
@@ -234,10 +172,11 @@ export class MoviesDetailsPage implements OnInit {
             handler: () => {
               this.goToEdit();
             }
-          },
+          }, 
           {
-            text: 'Move Out of Diary',
-            icon: 'heart',
+            text: 'Move Out Of Diary',
+            icon: 'trash',
+            role: 'destructive',
             handler: () => {
               this.deleteFromDiary();
             }

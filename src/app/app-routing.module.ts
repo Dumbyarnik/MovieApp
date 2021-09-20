@@ -11,13 +11,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/movies-details/movies-details.module').then( m => m.MoviesDetailsPageModule)
   },
   {
-    path: 'tabs/tab2/:id',
-    loadChildren: () => import('./pages/watched-movie/watched-movie.module').then( m => m.WatchedMoviePageModule)
-  },
-  {
     path: 'tabs/tab2/edit/:id',
     loadChildren: () => import('./pages/watched-movie-edit/watched-movie-edit.module').then( m => m.WatchedMovieEditPageModule)
+  },
+  {
+    path: 'tabs/tab2/diary/:id',
+    loadChildren: () => import('./pages/diary-view/diary-view.module').then( m => m.DiaryViewPageModule)
   }
+
 
 
 

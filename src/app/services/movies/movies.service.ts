@@ -44,8 +44,6 @@ export class MoviesService {
     const data = JSON.parse(user.value);
     const movies_want_int = data[0].movies_want;
 
-    console.log(data[0].movies_want);
-
     this.movies_want = [];
 
     for (var i in movies_want_int){
