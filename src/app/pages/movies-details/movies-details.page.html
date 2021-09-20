@@ -5,6 +5,7 @@
     </ion-buttons>
     <ion-title>{{information?.original_language}}</ion-title>
   </ion-toolbar>
+  <ion-button (click)="presentActionSheet()">Action Sheet</ion-button>
 </ion-header>
 
 <ion-content padding>
@@ -17,14 +18,6 @@
         {{information.genres[0].name}}, {{information.genres[1].name}}
       </ion-card-subtitle>
     </ion-card-header>
-
-    <ion-list>   
-      <ion-item>
-        <ion-label>Watchlist</ion-label>
-        <ion-toggle [(ngModel)]="isWatchlistToggled" 
-        (ionChange)="notifyWatchlistToggle()"></ion-toggle>
-      </ion-item>
-    </ion-list>
 
     <ion-card-content text-center>
       <img [src]='"https://image.tmdb.org/t/p/w500" + information.poster_path' class="info-img">

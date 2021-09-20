@@ -15,11 +15,13 @@ export class Tab3Page implements OnInit {
 
   }
 
-  async setItem(){
+  async setStorage(){
     const user = JSON.stringify([{
       name: 'user',
       password: 'user',
-      movies_want: [12, 13, 14]
+      movies_want: ['12', '13'],
+      movies_watched: [['120', '4', 'Cool Movie']]
+
     }])
 
     await Storage.set({
@@ -27,15 +29,17 @@ export class Tab3Page implements OnInit {
       value: user
     })
 
+    this.moviesService.loadMoviesWatched();
     this.moviesService.loadMoviesToWatch();
   }
 
-  async showItem(){
+  async showStorage(){
     const user = await Storage.get({ key: 'user'});
     const data = JSON.parse(user.value);
-    console.log('data: ', data[0].movies_want);
+    console.log('data: ', data[0]);
 
     this.moviesService.loadMoviesToWatch();
+    this.moviesService.loadMoviesWatched();
   }
 
   async clearStorage(){

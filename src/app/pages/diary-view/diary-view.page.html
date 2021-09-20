@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-button (click)="presentActionSheet()">Action Sheet</ion-button>
+</ion-header>
+
+<ion-content padding>
+  <ion-card *ngIf="information">
+    <ion-card-header>
+      <ion-card-title>
+        {{information.title}}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content text-center>
+      <img [src]='"https://image.tmdb.org/t/p/w500" + information.poster_path' 
+      class="info-img">
+
+      <!-- big section dedicated just to stars-->
+      <div *ngIf="stars == '1'">
+        <ion-icon  name="star"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+      </div>
+      <div *ngIf="stars == '2'">
+        <ion-icon  name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+      </div>
+      <div *ngIf="stars == '3'">
+        <ion-icon  name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+      </div>
+      <div *ngIf="stars == '4'">
+        <ion-icon  name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+      </div>
+      <div *ngIf="stars == '5'">
+        <ion-icon  name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+      </div>
+
+      <!-- Review Section -->
+      <ion-text *ngIf="review != ''" color="dark">
+        <h5>Review</h5>
+        <p>
+          {{review}}
+        </p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
