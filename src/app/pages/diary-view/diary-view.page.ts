@@ -4,6 +4,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Storage } from '@capacitor/storage';
+import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-diary-view',
@@ -47,58 +48,18 @@ export class DiaryViewPage implements OnInit {
       }
     }
 
-    console.log('initialize');
+    // subscribing to stars and review
+    this.moviesService.loadStars(this.stars);
+    this.moviesService.getStars().subscribe(res =>{
+      this.stars = res;
+    });
+    this.moviesService.loadReview(this.review);
+    this.moviesService.getReview().subscribe(res =>{
+      this.review = res;
+    });
   }
 
-  async saveToWatchlist(){
-    var user = await Storage.get({ key: 'user'});
-    var data = JSON.parse(user.value);
-    data[0].movies_want.push(this.information.id);
-    
-    await Storage.set({
-      key: 'user',
-      value: JSON.stringify(data),
-    });
-
-    this.moviesService.loadMoviesToWatch();
-  }
-
-  async deleteToWatchlist(){
-    var user = await Storage.get({ key: 'user'});
-    var data = JSON.parse(user.value);
-
-    // deleting the item from the array
-    data[0].movies_want.forEach((element, index)=>{
-      if(element==this.id) data[0].movies_want.splice(index,1);
-    });
-  
-    await Storage.set({
-      key: 'user',
-      value: JSON.stringify(data),
-    });
-
-    this.moviesService.loadMoviesToWatch();
-  }
-
-  async deleteFromDiary(){
-    var user = await Storage.get({ key: 'user'});
-    var data = JSON.parse(user.value);
-
-    // deleting the item from the array
-    data[0].movies_watched.forEach((element, index)=>{
-      if(element[0]==this.id) data[0].movies_watched.splice(index,1);
-    });
-  
-    await Storage.set({
-      key: 'user',
-      value: JSON.stringify(data),
-    });
-
-    this.moviesService.loadMoviesWatched();
-
-    this.route.navigate(['/tabs/tab2']);
-  }
-
+  // edit button in action sheet
   goToEdit(){
     this.route.navigate(['/tabs/tab2/edit/' + this.id]);
   }
@@ -119,7 +80,7 @@ export class DiaryViewPage implements OnInit {
             text: 'Move Out of Watchlist',
             icon: 'eye',
             handler: () => {
-              this.deleteToWatchlist();
+              this.moviesService.deleteToWatchlist(this.id);
             }
           },
           {
@@ -134,7 +95,7 @@ export class DiaryViewPage implements OnInit {
             icon: 'trash',
             role: 'destructive',
             handler: () => {
-              this.deleteFromDiary();
+              this.moviesService.deleteFromDiary(this.id);
             }
           }, 
           {
@@ -163,7 +124,7 @@ export class DiaryViewPage implements OnInit {
             text: 'Move In Watchlist',
             icon: 'eye',
             handler: () => {
-              this.saveToWatchlist();
+              this.moviesService.saveToWatchlist(this.id);
             }
           },
           {
@@ -178,7 +139,7 @@ export class DiaryViewPage implements OnInit {
             icon: 'trash',
             role: 'destructive',
             handler: () => {
-              this.deleteFromDiary();
+              this.moviesService.deleteFromDiary(this.id);
             }
           },
           {

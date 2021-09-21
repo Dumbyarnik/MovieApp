@@ -11,7 +11,7 @@
   <img [src]='"https://image.tmdb.org/t/p/w500" + information.poster_path' class="info-img">
 
   <ion-item>
-    <ion-range (ionChange)="change($event)" min="1" max="5" step="1" pin="true" snaps="true" 
+    <ion-range (ionChange)="changeStars($event)" min="1" max="5" step="1" pin="true" snaps="true" 
     mode="ios" ticks="true" value="{{stars}}">
       <ion-icon size="small" slot="start" name="star"></ion-icon>
       <ion-icon slot="end" name="star"></ion-icon>

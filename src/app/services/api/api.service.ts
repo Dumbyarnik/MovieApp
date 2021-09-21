@@ -16,9 +16,16 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   // function for searching for movies
-  searchData(title: string): Observable<any>{
+  searchData(title: string, page: number): Observable<any>{
     return this.http
-    .get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${title}`);
+    .get(`https://api.themoviedb.org/3/search/movie?` + 
+    `api_key=${this.apiKey}&query=${title}&page=${page}`);
+  }
+
+  getPopular(page: number): Observable<any>{
+    return this.http
+    .get(`https://api.themoviedb.org/3/movie/popular?` + 
+    `api_key=${this.apiKey}&page=${page}`);
   }
 
   getDetails(id){

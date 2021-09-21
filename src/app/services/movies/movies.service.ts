@@ -17,8 +17,11 @@ export interface Movie{
 
 export class MoviesService {
 
-  // for retrieving infromation about a single movie and stroing it in array
-  private information = null;
+  // storing information about one movie
+  information = null;
+
+
+  //// observable
 
   // variables for watchlist
   movies_want: any[] = [];
@@ -28,10 +31,84 @@ export class MoviesService {
   movies_watched: any[] = [];
   movies_watched_behaviour = new BehaviorSubject([]);
 
+  // variables for stars and reviews
+  stars: string;
+  review: string;
+  stars_behaviour = new BehaviorSubject(null);
+  review_behaviour = new BehaviorSubject(null);
+
   constructor(private apiService: ApiService) { 
     this.loadMoviesToWatch();
     this.loadMoviesWatched();
   }
+
+  isMovieInWatchlist(id: string): boolean{
+    for (var i in this.movies_want){
+      if (this.movies_want[i].id == id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  isMovieInDiary(id: string): boolean{
+    for (var i in this.movies_watched){
+      if (this.movies_watched[i].id == id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  async saveToWatchlist(id: string){
+    var user = await Storage.get({ key: 'user'});
+    var data = JSON.parse(user.value);
+    data[0].movies_want.push(id);
+    
+    await Storage.set({
+      key: 'user',
+      value: JSON.stringify(data),
+    });
+
+    this.loadMoviesToWatch();
+  }
+
+  async deleteToWatchlist(id: string){
+    var user = await Storage.get({ key: 'user'});
+    var data = JSON.parse(user.value);
+
+    // deleting the item from the array
+    data[0].movies_want.forEach((element, index)=>{
+      if(element==id) data[0].movies_want.splice(index,1);
+    });
+  
+    await Storage.set({
+      key: 'user',
+      value: JSON.stringify(data),
+    });
+
+    this.loadMoviesToWatch();
+  }
+
+  async deleteFromDiary(id: string){
+    var user = await Storage.get({ key: 'user'});
+    var data = JSON.parse(user.value);
+
+    // deleting the item from the array
+    data[0].movies_watched.forEach((element, index)=>{
+      if(element[0]==id) data[0].movies_watched.splice(index,1);
+    });
+  
+    await Storage.set({
+      key: 'user',
+      value: JSON.stringify(data),
+    });
+
+    this.loadMoviesWatched();
+  }
+
+
+  ////Observable part of the service////
 
   // Functions for a watch list
   getMoviesToWatch(): Observable<any> {
@@ -94,22 +171,20 @@ export class MoviesService {
     this.movies_watched_behaviour.next(this.movies_watched);
   }
 
-  isMovieInWatchlist(id: string): boolean{
-    for (var i in this.movies_want){
-      if (this.movies_want[i].id == id){
-        return true;
-      }
-    }
-    return false;
+  // functions for stars and reviews
+  getStars(): Observable<string>{
+    return this.stars_behaviour.asObservable();
   }
-
-  isMovieInDiary(id: string): boolean{
-    for (var i in this.movies_watched){
-      if (this.movies_watched[i].id == id){
-        return true;
-      }
-    }
-    return false;
+  loadStars(stars: string){
+    this.stars = stars;
+    this.stars_behaviour.next(this.stars);
+  }
+  getReview(): Observable<string>{
+    return this.review_behaviour.asObservable();
+  }
+  loadReview(review: string){
+    this.review = review;
+    this.review_behaviour.next(this.review);
   }
 
 

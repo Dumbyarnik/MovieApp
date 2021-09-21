@@ -1,21 +1,16 @@
-<ion-header [translucent]="true">
+<ion-header mode="ios">
   <ion-toolbar>
     <ion-title>
       Movie Search
     </ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar mode="ios" [(ngModel)]="searchTerm" 
+  (ionChange)="searchChanged($event)"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Movie Search</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-searchbar [(ngModel)]="searchTerm" 
-  (ionChange)="searchChanged($event)"></ion-searchbar>
-
   <ion-list *ngFor="let item of moviesArray">
     <ion-item [routerLink]="'/tabs/tab1/' + item.id">
       <ion-avatar slot="start">
@@ -29,4 +24,11 @@
       </ion-label>
     </ion-item>  
   </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
