@@ -17,8 +17,8 @@ export interface Movie{
 
 export class MoviesService {
 
-  // for retrieving infromation about a single movie and stroing it in array
-  private information = null;
+  // storing information about one movie
+  information = null;
 
   // variables for watchlist
   movies_want: any[] = [];
@@ -110,6 +110,53 @@ export class MoviesService {
       }
     }
     return false;
+  }
+
+  async saveToWatchlist(id: string){
+    var user = await Storage.get({ key: 'user'});
+    var data = JSON.parse(user.value);
+    data[0].movies_want.push(id);
+    
+    await Storage.set({
+      key: 'user',
+      value: JSON.stringify(data),
+    });
+
+    this.loadMoviesToWatch();
+  }
+
+  async deleteToWatchlist(id: string){
+    var user = await Storage.get({ key: 'user'});
+    var data = JSON.parse(user.value);
+
+    // deleting the item from the array
+    data[0].movies_want.forEach((element, index)=>{
+      if(element==id) data[0].movies_want.splice(index,1);
+    });
+  
+    await Storage.set({
+      key: 'user',
+      value: JSON.stringify(data),
+    });
+
+    this.loadMoviesToWatch();
+  }
+
+  async deleteFromDiary(id: string){
+    var user = await Storage.get({ key: 'user'});
+    var data = JSON.parse(user.value);
+
+    // deleting the item from the array
+    data[0].movies_watched.forEach((element, index)=>{
+      if(element[0]==id) data[0].movies_watched.splice(index,1);
+    });
+  
+    await Storage.set({
+      key: 'user',
+      value: JSON.stringify(data),
+    });
+
+    this.loadMoviesWatched();
   }
 
 

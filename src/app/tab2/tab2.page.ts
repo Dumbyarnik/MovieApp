@@ -18,11 +18,11 @@ export class Tab2Page implements OnInit {
   constructor(private moviesService: MoviesService) {}
 
   ngOnInit(): void {
-    this.LoadMoviesToWatch();   
-    this.LoadMoviesWatched();
+    this.loadMoviesToWatch();   
+    this.loadMoviesWatched();
   }
 
-  async LoadMoviesToWatch(){
+  async loadMoviesToWatch(){
     // subscribing to movies to watch     
     this.moviesService.getMoviesToWatch().subscribe(res => {
       this.movies_want = [];
@@ -30,7 +30,7 @@ export class Tab2Page implements OnInit {
     });
   }
 
-  async LoadMoviesWatched(){
+  async loadMoviesWatched(){
     // subscribing to watched movies
     this.moviesService.getMoviesWatched().subscribe(res => {
       this.movies_watched = [];
