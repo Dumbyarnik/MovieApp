@@ -59,7 +59,7 @@ export class Tab1Page {
     });
   }
 
-  // loading data when scrolling
+  // Infinite Scropp code
   loadData(event) {
     setTimeout(() => {
       console.log('Done');
