@@ -22,6 +22,12 @@ export class ApiService {
     `api_key=${this.apiKey}&query=${title}&page=${page}`);
   }
 
+  getPopular(page: number): Observable<any>{
+    return this.http
+    .get(`https://api.themoviedb.org/3/movie/popular?` + 
+    `api_key=${this.apiKey}&page=${page}`);
+  }
+
   getDetails(id){
     return this.http
     .get(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.apiKey}`);

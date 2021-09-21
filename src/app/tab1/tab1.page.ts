@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '../services/api/api.service';
 import { IonInfiniteScroll } from '@ionic/angular';
@@ -9,7 +9,7 @@ import { IonInfiniteScroll } from '@ionic/angular';
   styleUrls: ['tab1.page.scss']
 })
 
-export class Tab1Page {
+export class Tab1Page implements OnInit  {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   // for getting information from api
@@ -17,27 +17,34 @@ export class Tab1Page {
   // for showing them on html page
   moviesArray: any[] = [];
   // for giving the search string
-  searchTerm = '';
+  searchTerm: string = '';
   // for page number
   page: number = 1;
   // for how many pages there at all
   total_pages: number;
 
   constructor(private apiService: ApiService) {}
+  ngOnInit(): void {
+    this.searchChanged();
+  }
 
   // when search is changed, we have to load new data
   searchChanged(){
+    this.page = 1;
+
     // getting Observable object from query
-    this.moviesObservable = this.apiService.searchData(this.searchTerm, this.page);
+    if (!this.searchTerm){
+      this.moviesObservable = this.apiService.getPopular(this.page);
+    }
+    else {
+      this.moviesObservable = this.apiService.searchData(this.searchTerm, this.page);
+    }
     
     // putting data into array
     this.moviesObservable.subscribe(res =>{
       this.moviesArray = res.results;
       this.total_pages = res.total_pages;
     });
-
-    this.page = 1;
-
   }
 
   // adding data when scroll is down
@@ -45,7 +52,12 @@ export class Tab1Page {
     this.page++;
 
     // getting Observable object from query
-    this.moviesObservable = this.apiService.searchData(this.searchTerm, this.page);
+    if (!this.searchTerm){
+      this.moviesObservable = this.apiService.getPopular(this.page);
+    }
+    else {
+      this.moviesObservable = this.apiService.searchData(this.searchTerm, this.page);
+    }
     
     var tmpArray = [];
 
@@ -62,7 +74,6 @@ export class Tab1Page {
   // Infinite Scropp code
   loadData(event) {
     setTimeout(() => {
-      console.log('Done');
       event.target.complete();
 
       // App logic to determine if all data is loaded
