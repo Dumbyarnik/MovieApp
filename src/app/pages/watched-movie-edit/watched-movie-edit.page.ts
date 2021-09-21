@@ -18,7 +18,7 @@ export class WatchedMovieEditPage implements OnInit {
   // how many stars movie have
   stars: string = '1';
   // review of the user
-  review: any;
+  review: string = '';
   // if the movie is already in diary
   private isMovieInDiary: boolean = false;
   // position of movie in JSON array in Storage
@@ -58,7 +58,7 @@ export class WatchedMovieEditPage implements OnInit {
     }
   }
 
-  change(event: any){
+  changeStars(event: any){
     this.stars = event.detail.value;
   }
 
@@ -92,9 +92,8 @@ export class WatchedMovieEditPage implements OnInit {
 
     this.moviesService.loadMoviesToWatch();
     this.moviesService.loadMoviesWatched();
-    
-    // like that we understand that we were somewhere
-    // console.log(this.route.navigated);
+    this.moviesService.loadStars(this.stars);
+    this.moviesService.loadReview(this.review);
 
     // going back to previous page
     this.location.back();

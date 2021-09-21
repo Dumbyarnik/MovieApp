@@ -20,6 +20,9 @@ export class MoviesService {
   // storing information about one movie
   information = null;
 
+
+  //// observable
+
   // variables for watchlist
   movies_want: any[] = [];
   movies_want_behaviour = new BehaviorSubject([]);
@@ -28,70 +31,15 @@ export class MoviesService {
   movies_watched: any[] = [];
   movies_watched_behaviour = new BehaviorSubject([]);
 
+  // variables for stars and reviews
+  stars: string;
+  review: string;
+  stars_behaviour = new BehaviorSubject(null);
+  review_behaviour = new BehaviorSubject(null);
+
   constructor(private apiService: ApiService) { 
     this.loadMoviesToWatch();
     this.loadMoviesWatched();
-  }
-
-  // Functions for a watch list
-  getMoviesToWatch(): Observable<any> {
-    return this.movies_want_behaviour.asObservable();
-  }
-
-  async loadMoviesToWatch(){
-    // getting movies user wants to watch from storage
-    const user = await Storage.get({ key: 'user'});
-    const data = JSON.parse(user.value);
-    const movies_want_int = data[0].movies_want;
-
-    this.movies_want = [];
-
-    for (var i in movies_want_int){
-      // retrieving information about the movies
-      let tmpMovie = {} as Movie;
-      // here is pipe for unsubscribing after
-      this.apiService.getDetails(movies_want_int[i]).pipe(first()).subscribe(result =>{
-        this.information = result;
-        tmpMovie.id = this.information.id;
-        tmpMovie.name = this.information.original_title;
-        tmpMovie.year = this.information.release_date;
-        tmpMovie.image = 'https://image.tmdb.org/t/p/w500' 
-          + this.information.poster_path;
-      });
-      this.movies_want.push(tmpMovie);
-    }
-
-    this.movies_want_behaviour.next(this.movies_want);
-  }
-
-  // functions for a watched list
-  getMoviesWatched(): Observable<any> {
-    return this.movies_watched_behaviour.asObservable();
-  }
-
-  async loadMoviesWatched(){
-    // getting movies user wants to watch from storage
-    const user = await Storage.get({ key: 'user'});
-    const data = JSON.parse(user.value);
-    const movies_watched_int = data[0].movies_watched;
-
-    this.movies_watched = [];
-
-    for (var i in movies_watched_int){
-      let tmpMovie = {} as Movie;
-      // retrieving information about the movies
-      // here is pipe for unsubscribing after
-      this.apiService.getDetails(movies_watched_int[i][0]).pipe(first()).subscribe(result =>{
-        this.information = result;
-        tmpMovie.id = this.information.id;
-        tmpMovie.name = this.information.original_title;
-        tmpMovie.year = this.information.release_date;
-        tmpMovie.image = 'https://image.tmdb.org/t/p/w500' 
-          + this.information.poster_path;
-      });
-      this.movies_watched.push(tmpMovie);
-    }
-    this.movies_watched_behaviour.next(this.movies_watched);
   }
 
   isMovieInWatchlist(id: string): boolean{
@@ -157,6 +105,86 @@ export class MoviesService {
     });
 
     this.loadMoviesWatched();
+  }
+
+
+  ////Observable part of the service////
+
+  // Functions for a watch list
+  getMoviesToWatch(): Observable<any> {
+    return this.movies_want_behaviour.asObservable();
+  }
+
+  async loadMoviesToWatch(){
+    // getting movies user wants to watch from storage
+    const user = await Storage.get({ key: 'user'});
+    const data = JSON.parse(user.value);
+    const movies_want_int = data[0].movies_want;
+
+    this.movies_want = [];
+
+    for (var i in movies_want_int){
+      // retrieving information about the movies
+      let tmpMovie = {} as Movie;
+      // here is pipe for unsubscribing after
+      this.apiService.getDetails(movies_want_int[i]).pipe(first()).subscribe(result =>{
+        this.information = result;
+        tmpMovie.id = this.information.id;
+        tmpMovie.name = this.information.original_title;
+        tmpMovie.year = this.information.release_date;
+        tmpMovie.image = 'https://image.tmdb.org/t/p/w500' 
+          + this.information.poster_path;
+      });
+      this.movies_want.push(tmpMovie);
+    }
+
+    this.movies_want_behaviour.next(this.movies_want);
+  }
+
+  // functions for a watched list
+  getMoviesWatched(): Observable<any> {
+    return this.movies_watched_behaviour.asObservable();
+  }
+
+  async loadMoviesWatched(){
+    // getting movies user wants to watch from storage
+    const user = await Storage.get({ key: 'user'});
+    const data = JSON.parse(user.value);
+    const movies_watched_int = data[0].movies_watched;
+
+    this.movies_watched = [];
+
+    for (var i in movies_watched_int){
+      let tmpMovie = {} as Movie;
+      // retrieving information about the movies
+      // here is pipe for unsubscribing after
+      this.apiService.getDetails(movies_watched_int[i][0]).pipe(first()).subscribe(result =>{
+        this.information = result;
+        tmpMovie.id = this.information.id;
+        tmpMovie.name = this.information.original_title;
+        tmpMovie.year = this.information.release_date;
+        tmpMovie.image = 'https://image.tmdb.org/t/p/w500' 
+          + this.information.poster_path;
+      });
+      this.movies_watched.push(tmpMovie);
+    }
+    this.movies_watched_behaviour.next(this.movies_watched);
+  }
+
+  // functions for stars and reviews
+  getStars(): Observable<string>{
+    return this.stars_behaviour.asObservable();
+  }
+  loadStars(stars: string){
+    this.stars = stars;
+    this.stars_behaviour.next(this.stars);
+  }
+  getReview(): Observable<string>{
+    return this.review_behaviour.asObservable();
+  }
+  loadReview(review: string){
+    this.review = review;
+    this.review_behaviour.next(this.review);
   }
 
 

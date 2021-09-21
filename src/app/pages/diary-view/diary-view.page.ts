@@ -4,6 +4,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Storage } from '@capacitor/storage';
+import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-diary-view',
@@ -47,7 +48,15 @@ export class DiaryViewPage implements OnInit {
       }
     }
 
-    console.log('initialize');
+    // subscribing to stars and review
+    this.moviesService.loadStars(this.stars);
+    this.moviesService.getStars().subscribe(res =>{
+      this.stars = res;
+    });
+    this.moviesService.loadReview(this.review);
+    this.moviesService.getReview().subscribe(res =>{
+      this.review = res;
+    });
   }
 
   // edit button in action sheet
