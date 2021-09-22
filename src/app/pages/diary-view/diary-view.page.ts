@@ -4,7 +4,6 @@ import { ActionSheetController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Storage } from '@capacitor/storage';
-import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-diary-view',
