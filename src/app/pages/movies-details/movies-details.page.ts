@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { Storage } from '@capacitor/storage';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 
+export interface Actor{
+  name: string;
+  character: string;
+  profile_path: string;
+}
 
 @Component({
   selector: 'app-movies-details',
@@ -14,31 +19,69 @@ import { ActionSheetController } from '@ionic/angular';
 })
 export class MoviesDetailsPage implements OnInit {
 
+
   // movie id
   id: string;
 
   // variable to store info about the movie
   information = null;
 
+  // variable to store info about casting 
+  castObservable = null;
+  cast: Actor[] = [];
+
+  // variable to store info about similiar movies
+  similiarMoviesObervable = null;
+  similiarMovies: any[] = [];
+
   // ActivatedRoute we need for retrieving id
   constructor(private activatedRoute: ActivatedRoute, 
     private apiService: ApiService,
     private moviesService: MoviesService,
-    private route: Router,
+    private router: Router,
     public actionSheetController: ActionSheetController) { 
     }
 
   async ngOnInit() {
+
     // getting the information about the movie
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    // getting details about the movie
     this.apiService.getDetails(this.id).subscribe(result =>{
       this.information = result;
+      this.information.release_date = this.information.release_date.substr(0, 4);
+    });
+    // getting cast information 
+    this.apiService.getCast(this.id).subscribe(result =>{
+      this.castObservable = result;
+      for (var i in this.castObservable.cast){
+        let tmpActor = {} as Actor;
+        tmpActor.character = this.castObservable.cast[i].character;
+        tmpActor.name = this.castObservable.cast[i].name;
+        tmpActor.profile_path = "https://image.tmdb.org/t/p/h632" + 
+          this.castObservable.cast[i].profile_path;
+        this.cast.push(tmpActor);
+      }
+    });
+    // getting similiar movies
+    this.similiarMoviesObervable = this.apiService.getSimiliarMovies(this.id);
+    this.similiarMoviesObervable.subscribe(res =>{
+      this.similiarMovies = res.results;
+      for (var i in this.similiarMovies){
+        if (this.similiarMovies[i].release_date == undefined){
+          this.similiarMovies[i].release_date = "n/a"
+        }
+        else {
+          this.similiarMovies[i].release_date = 
+            this.similiarMovies[i].release_date.substr(0,4);
+        }
+      }
     });
   }
-  
+
   // edit and move in diary buttons in actionsheet
   goToEdit(){
-    this.route.navigate(['/tabs/tab2/edit/' + this.id]);
+    this.router.navigate(['/tabs/tab2/edit/' + this.id]);
   }
 
   // button - open website
@@ -57,7 +100,6 @@ export class MoviesDetailsPage implements OnInit {
     if (isInWatchlist && !isInDiary){
       const actionSheet = await this.actionSheetController.create({
 
-        header: 'what to do',
         buttons: [
           {
             text: 'Move Out of Watchlist',
@@ -93,7 +135,6 @@ export class MoviesDetailsPage implements OnInit {
     else if (!isInWatchlist && isInDiary){
       const actionSheet = await this.actionSheetController.create({
 
-        header: 'what to do',
         buttons: [
           {
             text: 'Move In Watchlist',
@@ -137,7 +178,6 @@ export class MoviesDetailsPage implements OnInit {
     else if (!isInWatchlist && !isInDiary){
       const actionSheet = await this.actionSheetController.create({
 
-        header: 'what to do',
         buttons: [
           {
             text: 'Move In Watchlist',
@@ -173,7 +213,6 @@ export class MoviesDetailsPage implements OnInit {
     else {
       const actionSheet = await this.actionSheetController.create({
 
-        header: 'what to do',
         buttons: [
           {
             text: 'Move Out Of Watchlist',

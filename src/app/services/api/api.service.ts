@@ -19,17 +19,27 @@ export class ApiService {
   searchData(title: string, page: number): Observable<any>{
     return this.http
     .get(`https://api.themoviedb.org/3/search/movie?` + 
-    `api_key=${this.apiKey}&query=${title}&page=${page}`);
+    `api_key=${this.apiKey}&query=${title}&language=en-US&page=${page}`);
   }
 
   getPopular(page: number): Observable<any>{
     return this.http
     .get(`https://api.themoviedb.org/3/movie/popular?` + 
-    `api_key=${this.apiKey}&page=${page}`);
+    `api_key=${this.apiKey}&language=en-US&page=${page}`);
   }
 
-  getDetails(id){
+  getDetails(id: string){
     return this.http
-    .get(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.apiKey}`);
+    .get(`https://api.themoviedb.org/3/movie/${id}?api_key=${this.apiKey}&language=en-US`);
+  }
+
+  getCast(id: string){
+    return this.http
+    .get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${this.apiKey}&language=en-US`);
+  }
+
+  getSimiliarMovies(id: string){
+    return this.http.get(`https://api.themoviedb.org/3/movie/${id}/` + 
+      `similar?api_key=${this.apiKey}&language=en-US&page=1`)
   }
 }

@@ -53,7 +53,6 @@ export class Tab1Page implements OnInit  {
             this.moviesArray[i].release_date.substr(0,4);
         }
       }
-
     });
   }
 
