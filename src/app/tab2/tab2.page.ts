@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MoviesService } from '../services/movies/movies.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -15,7 +15,9 @@ export class Tab2Page implements OnInit {
   movies_want: any[] = [];  
   movies_watched: any[] = [];  
 
-  constructor(private moviesService: MoviesService) {}
+  constructor(private moviesService: MoviesService,  private route: Router,) {
+    
+  }
 
   ngOnInit(): void {
     this.loadMoviesToWatch();   
@@ -37,5 +39,13 @@ export class Tab2Page implements OnInit {
       this.movies_watched = res;
     });
   }
+
+async removeFromWatchList(item){
+  this.moviesService.deleteToWatchlist(item.id);
+}
+
+async addtoWatched(item){
+  this.route.navigate(['/tabs/tab2/edit/' + item.id]);
+}
 
 }
