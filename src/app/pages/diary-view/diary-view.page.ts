@@ -61,12 +61,12 @@ export class DiaryViewPage implements OnInit {
 
   // edit button in action sheet
   goToEdit(){
-    this.route.navigate(['/tabs/tab2/edit/' + this.id]);
+    this.route.navigate(['/lists/diary/edit/' + this.id]);
   }
 
   // open movie page button
   openMovieDetails(){
-    this.route.navigate(['/tabs/tab1/' + this.id]);
+    this.route.navigate(['/search/' + this.id]);
   }
 
   // button - ActionSheet

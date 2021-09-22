@@ -91,7 +91,7 @@ export class MoviesDetailsPage implements OnInit {
 
   // edit and move in diary buttons in actionsheet
   goToEdit(){
-    this.router.navigate(['/tabs/tab2/edit/' + this.id]);
+    this.router.navigate(['/search/edit/' + this.id]);
   }
 
   // button - open website

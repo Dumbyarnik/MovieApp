@@ -19,36 +19,21 @@ const routes: Routes = [
     loadChildren: () => import('./pages/storage/storage.module').then(m => m.StoragePageModule)
   },
   {
-    path: 'tabs/tab1/:id',
+    path: 'search/:id',
     loadChildren: () => import('./pages/movies-details/movies-details.module').then( m => m.MoviesDetailsPageModule)
   },
   {
-    path: 'tabs/tab2/edit/:id',
+    path: 'search/edit/:id',
     loadChildren: () => import('./pages/watched-movie-edit/watched-movie-edit.module').then( m => m.WatchedMovieEditPageModule)
   },
   {
-    path: 'tabs/tab2/diary/:id',
+    path: 'lists/diary/:id',
     loadChildren: () => import('./pages/diary-view/diary-view.module').then( m => m.DiaryViewPageModule)
   },
   {
-    path: 'search',
-    loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
-  },
-  {
-    path: 'lists',
-    loadChildren: () => import('./pages/lists/lists.module').then( m => m.ListsPageModule)
-  },
-  {
-    path: 'storage',
-    loadChildren: () => import('./pages/storage/storage.module').then( m => m.StoragePageModule)
+    path: 'lists/diary/edit/:id',
+    loadChildren: () => import('./pages/watched-movie-edit/watched-movie-edit.module').then( m => m.WatchedMovieEditPageModule)
   }
-
-
-
-
-
-
-  
 ];
 @NgModule({
   imports: [

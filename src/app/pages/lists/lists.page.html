@@ -25,7 +25,7 @@
   <div [ngSwitch]="selectedView">
     <div *ngSwitchCase="'watchlist'">
       <ion-item-sliding *ngFor="let item of movies_want">
-        <ion-item [routerLink]="'/tabs/tab1/' + item.id">
+        <ion-item [routerLink]="['/search/' + item.id]">
           <ion-avatar slot="start">
             <img [src]='item.image'>
           </ion-avatar>
@@ -43,7 +43,7 @@
  
     <div *ngSwitchCase="'watched'">
       <ion-item-sliding *ngFor="let item of movies_watched">
-        <ion-item [routerLink]="'/tabs/tab2/diary/' + item.id">
+        <ion-item [routerLink]="['/lists/diary/' + item.id]">
           <ion-avatar slot="start">
             <img [src]='item.image'>
           </ion-avatar>
