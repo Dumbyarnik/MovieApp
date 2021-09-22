@@ -1,14 +1,38 @@
-<ion-header mode="ios">
-  <ion-toolbar>
+
+
+<ion-header  mode="ios">
+  <ion-toolbar color="primary">
     <ion-title>
       Movie Search
     </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button> 
+      <ion-menu-button menu="main-menu"></ion-menu-button> 
+    </ion-buttons>
   </ion-toolbar>
+
+ <br>
   <ion-toolbar>
     <ion-searchbar mode="ios" [(ngModel)]="searchTerm" 
   (ionChange)="searchChanged($event)"></ion-searchbar>
   </ion-toolbar>
+
 </ion-header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <ion-content [fullscreen]="true">
   <ion-list *ngFor="let item of moviesArray">
@@ -19,7 +43,7 @@
       </ion-avatar>
 
       <ion-label text-wrap>
-        <h3>{{item.original_title}}</h3>
+        <h2 color="secondary">{{item.original_title}}</h2>
         {{item.release_date}}
       </ion-label>
     </ion-item>  

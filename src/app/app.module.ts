@@ -11,8 +11,11 @@ import {HttpClientModule} from '@angular/common/http';
 import { SQLitePorter } from '@ionic-native/sqlite-porter/ngx';
 import { SQLite } from '@ionic-native/sqlite/ngx';
 
+
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [		AppComponent,
+   ],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
   providers: [

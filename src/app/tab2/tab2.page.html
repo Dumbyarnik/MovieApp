@@ -24,7 +24,7 @@
 
   <div [ngSwitch]="selectedView">
     <div *ngSwitchCase="'watchlist'">
-      <ion-list *ngFor="let item of movies_want">
+      <ion-item-sliding *ngFor="let item of movies_want">
         <ion-item [routerLink]="'/tabs/tab1/' + item.id">
           <ion-avatar slot="start">
             <img [src]='item.image'>
@@ -35,7 +35,15 @@
             {{item.year}}
           </ion-label>
         </ion-item>  
-      </ion-list>
+
+        <ion-item-options>
+          <ion-item-option  side="end" color="primary" (click)="removeFromWatchList(item)"><ion-icon name="trash"></ion-icon></ion-item-option>
+          <ion-item-option  side="start" color="secondary" (click)="addtoWatched(item)"><ion-icon name="eye"></ion-icon></ion-item-option>
+        </ion-item-options>
+
+
+
+      </ion-item-sliding>
     </div>
  
     <div *ngSwitchCase="'watched'">
