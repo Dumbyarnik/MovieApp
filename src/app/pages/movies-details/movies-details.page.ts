@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
-import { Storage } from '@capacitor/storage';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
@@ -19,7 +18,6 @@ export interface Actor{
 })
 export class MoviesDetailsPage implements OnInit {
 
-
   // movie id
   id: string;
 
@@ -33,6 +31,11 @@ export class MoviesDetailsPage implements OnInit {
   // variable to store info about similiar movies
   similiarMoviesObervable = null;
   similiarMovies: any[] = [];
+
+  // variables for icon colors
+  //showDiary
+  showWatchlist: boolean;
+  showDiary: boolean;
 
   // ActivatedRoute we need for retrieving id
   constructor(private activatedRoute: ActivatedRoute, 
@@ -77,6 +80,13 @@ export class MoviesDetailsPage implements OnInit {
         }
       }
     });
+
+    this.moviesService.loadMoviesToWatch();
+
+    // setting colors
+    this.showWatchlist = this.moviesService.isMovieInWatchlist(this.id);
+    this.showDiary = this.moviesService.isMovieInDiary(this.id);
+    console.log(this.showDiary);
   }
 
   // edit and move in diary buttons in actionsheet
@@ -106,6 +116,7 @@ export class MoviesDetailsPage implements OnInit {
             icon: 'eye',
             handler: () => {
               this.moviesService.deleteToWatchlist(this.id);
+              this.showWatchlist = false;
             }
           },
           {
@@ -141,6 +152,7 @@ export class MoviesDetailsPage implements OnInit {
             icon: 'eye',
             handler: () => {
               this.moviesService.saveToWatchlist(this.id);
+              this.showWatchlist = true;
             }
           },
           {
@@ -184,6 +196,7 @@ export class MoviesDetailsPage implements OnInit {
             icon: 'eye',
             handler: () => {
               this.moviesService.saveToWatchlist(this.id);
+              this.showWatchlist = true;
             }
           },
           {
@@ -219,6 +232,7 @@ export class MoviesDetailsPage implements OnInit {
             icon: 'eye',
             handler: () => {
               this.moviesService.deleteToWatchlist(this.id);
+              this.showWatchlist = false;
             }
           },
           {
