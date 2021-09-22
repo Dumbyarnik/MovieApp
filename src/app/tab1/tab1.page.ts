@@ -44,6 +44,16 @@ export class Tab1Page implements OnInit  {
     this.moviesObservable.subscribe(res =>{
       this.moviesArray = res.results;
       this.total_pages = res.total_pages;
+      for (var i in this.moviesArray){
+        if (this.moviesArray[i].release_date == undefined){
+          this.moviesArray[i].release_date = "n/a"
+        }
+        else {
+          this.moviesArray[i].release_date = 
+            this.moviesArray[i].release_date.substr(0,4);
+        }
+      }
+
     });
   }
 
@@ -64,10 +74,21 @@ export class Tab1Page implements OnInit  {
     // putting data into array
     this.moviesObservable.subscribe(res =>{
       tmpArray = res.results;
-    
+
       for (var i in tmpArray){
+
+        if (tmpArray[i].release_date == undefined){
+          tmpArray[i].release_date = "n/a"
+        }
+        else {
+          tmpArray[i].release_date = 
+            tmpArray[i].release_date.substr(0,4);
+        }
+
         this.moviesArray.push(tmpArray[i]);
       }
+
+      
     });
   }
 
