@@ -1,69 +1,80 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+<ion-header mode="ios">
+  <ion-toolbar color="primary">
+    <ion-buttons mode="ios" slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+    </ion-buttons>
+
+    <!--<ion-icon *ngIf="showWatchlist" slot="end" color="secondary" name="eye"></ion-icon>
+    <ion-icon *ngIf="!showWatchlist" slot="end" color="" name="eye"></ion-icon>
+
+    <ion-icon *ngIf="showDiary" slot="end" color="secondary" name="eye"></ion-icon>
+    <ion-icon *ngIf="!showDiary" slot="end" color="" name="folder-open"></ion-icon>-->
+
+    <ion-buttons mode="ios" slot="end">
+      <ion-button color="light" (click)="presentActionSheet()">
+        <ion-icon mode="ios" name="menu"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-button (click)="presentActionSheet()">Action Sheet</ion-button>
 </ion-header>
 
-<ion-content padding>
-  <ion-card *ngIf="information">
-    <ion-card-header>
-      <ion-card-title>
-        {{information.title}}
-      </ion-card-title>
-    </ion-card-header>
 
-    <ion-card-content text-center>
-      <img [src]='"https://image.tmdb.org/t/p/w500" + information.poster_path' 
-      class="info-img">
+<ion-content *ngIf="information" padding>
+  <router-outlet class="router-flex" (activate)="onActivate($event)"></router-outlet>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <img  class="img-wrapper" 
+        [src]='"https://image.tmdb.org/t/p/w500" + information.poster_path'>
+      </ion-col>
+      <ion-col size="7">
+        <h3> {{information.title}} </h3>
+        <div *ngIf="stars == '1'">
+          <ion-icon  name="star"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+        </div>
+        <div *ngIf="stars == '2'">
+          <ion-icon  name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+        </div>
+        <div *ngIf="stars == '3'">
+          <ion-icon  name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+        </div>
+        <div *ngIf="stars == '4'">
+          <ion-icon  name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star-outline"></ion-icon>
+        </div>
+        <div *ngIf="stars == '5'">
+          <ion-icon  name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+          <ion-icon name="star"></ion-icon>
+        </div>
+        
+        <ion-text *ngIf="review != ''" color="dark">
+          <ion-text> {{review}} </ion-text>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-      <!-- big section dedicated just to stars-->
-      <div *ngIf="stars == '1'">
-        <ion-icon  name="star"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-      </div>
-      <div *ngIf="stars == '2'">
-        <ion-icon  name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-      </div>
-      <div *ngIf="stars == '3'">
-        <ion-icon  name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-      </div>
-      <div *ngIf="stars == '4'">
-        <ion-icon  name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star-outline"></ion-icon>
-      </div>
-      <div *ngIf="stars == '5'">
-        <ion-icon  name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-        <ion-icon name="star"></ion-icon>
-      </div>
-
-      <!-- Review Section -->
-      <ion-text *ngIf="review != ''" color="dark">
-        <h5>Review</h5>
-        <p>
-          {{review}}
-        </p>
-      </ion-text>
-    </ion-card-content>
-  </ion-card>
+  <ion-button (click)="openMovieDetails()" expand="full" mode="ios" fill="clear" color="">
+    See Movie Page
+    <ion-icon mode="ios" name="arrow-forward"></ion-icon>
+  </ion-button>
 </ion-content>
 

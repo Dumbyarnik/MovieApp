@@ -64,6 +64,11 @@ export class DiaryViewPage implements OnInit {
     this.route.navigate(['/tabs/tab2/edit/' + this.id]);
   }
 
+  // open movie page button
+  openMovieDetails(){
+    this.route.navigate(['/tabs/tab1/' + this.id]);
+  }
+
   // button - ActionSheet
   async presentActionSheet(){
 
