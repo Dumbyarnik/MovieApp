@@ -33,7 +33,12 @@ const routes: Routes = [
   {
     path: 'lists/diary/edit/:id',
     loadChildren: () => import('./pages/watched-movie-edit/watched-movie-edit.module').then( m => m.WatchedMovieEditPageModule)
+  },
+  {
+    path: 'search/cast/:id',
+    loadChildren: () => import('./pages/cast/cast.module').then( m => m.CastPageModule)
   }
+
 ];
 @NgModule({
   imports: [
