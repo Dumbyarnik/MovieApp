@@ -131,7 +131,14 @@ export class MoviesService {
         this.information = result;
         tmpMovie.id = this.information.id;
         tmpMovie.name = this.information.original_title;
-        tmpMovie.year = this.information.release_date;
+
+        if (this.information.release_date == undefined){
+          tmpMovie.year = "n/a";
+        }
+        else {
+          tmpMovie.year = this.information.release_date.substr(0, 4);
+        }
+        
         tmpMovie.image = 'https://image.tmdb.org/t/p/w500' 
           + this.information.poster_path;
       });
