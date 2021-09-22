@@ -9,6 +9,7 @@ export interface Movie{
   name: string;
   year: string;
   image: string;
+  stars: string;
 }
 
 @Injectable({
@@ -47,7 +48,6 @@ export class MoviesService {
   }
 
   isMovieInWatchlist(id: string): boolean{
-    console.log(this.movies_want);
     for (var i in this.movies_want){
       
       if (this.movies_want[i].id == id){
@@ -148,7 +148,6 @@ export class MoviesService {
         tmpMovie.image = 'https://image.tmdb.org/t/p/w500' 
           + this.information.poster_path;
       });
-      //console.log(this.movies_want);
       this.movies_want.push(tmpMovie);
     }
 
@@ -170,13 +169,23 @@ export class MoviesService {
 
     for (var i in movies_watched_int){
       let tmpMovie = {} as Movie;
+      // getting the stars
+      tmpMovie.stars = movies_watched_int[i][1];
+
       // retrieving information about the movies
       // here is pipe for unsubscribing after
       this.apiService.getDetails(movies_watched_int[i][0]).pipe(first()).subscribe(result =>{
         this.information = result;
         tmpMovie.id = this.information.id;
         tmpMovie.name = this.information.original_title;
-        tmpMovie.year = this.information.release_date;
+
+        if (this.information.release_date == undefined){
+          tmpMovie.year = "n/a";
+        }
+        else {
+          tmpMovie.year = this.information.release_date.substr(0, 4);
+        }
+
         tmpMovie.image = 'https://image.tmdb.org/t/p/w500' 
           + this.information.poster_path;
       });

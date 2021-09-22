@@ -1,14 +1,15 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+<ion-header mode="ios">
+  <ion-toolbar color="primary">
+    <ion-buttons mode="ios" slot="start">
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
     </ion-buttons>
     <ion-title>{{information?.title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="information">
-  <img [src]='"https://image.tmdb.org/t/p/w500" + information.poster_path' class="info-img">
+  <img class="info-img" [src]='"https://image.tmdb.org/t/p/w500" + information.backdrop_path'
+   class="info-img">
 
   <ion-item>
     <ion-range (ionChange)="changeStars($event)" min="1" max="5" step="1" pin="true" snaps="true" 

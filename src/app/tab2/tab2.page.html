@@ -38,18 +38,54 @@
     </div>
  
     <div *ngSwitchCase="'watched'">
-      <ion-list *ngFor="let item of movies_watched">
+      <ion-item-sliding *ngFor="let item of movies_watched">
         <ion-item [routerLink]="'/tabs/tab2/diary/' + item.id">
           <ion-avatar slot="start">
             <img [src]='item.image'>
           </ion-avatar>
-    
           <ion-label text-wrap>
-            <h3>{{item.name}}</h3>
-            {{item.year}}
+            <b>{{item.name}}</b>
+            ({{item.year}})
+
+            <!-- big section dedicated just to stars-->
+      <div *ngIf="item.stars == '1'">
+        <ion-icon  name="star"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+      </div>
+      <div *ngIf="item.stars == '2'">
+        <ion-icon  name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+      </div>
+      <div *ngIf="item.stars == '3'">
+        <ion-icon  name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+      </div>
+      <div *ngIf="item.stars == '4'">
+        <ion-icon  name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star-outline"></ion-icon>
+      </div>
+      <div *ngIf="item.stars == '5'">
+        <ion-icon  name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star"></ion-icon>
+      </div>
           </ion-label>
         </ion-item>  
-      </ion-list>
+      </ion-item-sliding>
     </div>
   </div>
 
