@@ -3,3 +3,28 @@
     object-fit: contain;
     padding: 10px; 
 }
+
+.header-date{
+    font-size: medium;
+}
+
+.overview{
+    font-size: medium;
+}
+
+.cast-img{
+ width: 75px;
+ height: 100px;
+ margin-left: auto;
+    margin-right: auto;
+ 
+ background-size: cover;
+ display: block;
+ border-radius: 125px;
+ -webkit-border-radius: 125px;
+ -moz-border-radius: 125px;
+}
+
+.cast-card{
+    text-align: center;
+}

@@ -37,13 +37,19 @@ export class MoviesService {
   stars_behaviour = new BehaviorSubject(null);
   review_behaviour = new BehaviorSubject(null);
 
+  // variables for color of icons
+  showDiary: boolean;
+  showDiary_behaviour = new BehaviorSubject(null);
+
   constructor(private apiService: ApiService) { 
     this.loadMoviesToWatch();
     this.loadMoviesWatched();
   }
 
   isMovieInWatchlist(id: string): boolean{
+    console.log(this.movies_want);
     for (var i in this.movies_want){
+      
       if (this.movies_want[i].id == id){
         return true;
       }
@@ -131,10 +137,18 @@ export class MoviesService {
         this.information = result;
         tmpMovie.id = this.information.id;
         tmpMovie.name = this.information.original_title;
-        tmpMovie.year = this.information.release_date;
+
+        if (this.information.release_date == undefined){
+          tmpMovie.year = "n/a";
+        }
+        else {
+          tmpMovie.year = this.information.release_date.substr(0, 4);
+        }
+        
         tmpMovie.image = 'https://image.tmdb.org/t/p/w500' 
           + this.information.poster_path;
       });
+      //console.log(this.movies_want);
       this.movies_want.push(tmpMovie);
     }
 
@@ -187,5 +201,18 @@ export class MoviesService {
     this.review_behaviour.next(this.review);
   }
 
+  // functions for color of the icons
+  getColorDiary(): Observable<string>{
+    return this.showDiary_behaviour.asObservable();
+  }
 
+  loadColors(id: string){
+
+    if (this.isMovieInDiary(id)){
+      this.showDiary = true;
+    } else {
+      this.showDiary = false;
+    }
+    this.showDiary_behaviour.next(this.showDiary);
+  }
 }

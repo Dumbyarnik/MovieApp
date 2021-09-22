@@ -1,58 +1,97 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
+<ion-header mode="ios">
+  <ion-toolbar color="primary">
+    <ion-buttons mode="ios" slot="start">
       <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{information?.original_language}}</ion-title>
+
+    <!--<ion-icon *ngIf="showWatchlist" slot="end" color="secondary" name="eye"></ion-icon>
+    <ion-icon *ngIf="!showWatchlist" slot="end" color="" name="eye"></ion-icon>
+
+    <ion-icon *ngIf="showDiary" slot="end" color="secondary" name="eye"></ion-icon>
+    <ion-icon *ngIf="!showDiary" slot="end" color="" name="folder-open"></ion-icon>-->
+
+    <ion-buttons mode="ios" slot="end">
+      <ion-button color="light" (click)="presentActionSheet()">
+        <ion-icon mode="ios" name="menu"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
-  
 </ion-header>
 
-<ion-content padding>
-  <ion-card *ngIf="information">
-    <ion-card-header>
-      <ion-card-title  color="secondary">
-        <b> {{information.title}} </b>
-      </ion-card-title>
-      <ion-card-subtitle>
-        {{information.genres[0].name}}, {{information.genres[1].name}}
-      </ion-card-subtitle>
-    </ion-card-header>
 
-    <ion-card-content>
-    
-      <div class="container">
 
-      <img  class="container__image" [src]='"https://image.tmdb.org/t/p/w500" + information.poster_path'>
-      
-      <div class="container__text">
-       <p> 
-      {{information.overview}}
-    </p>
-      </div>
-</div>
-      <ion-item lines="none">
-        <ion-icon name="clipboard" slot="start"></ion-icon>
-        <ion-label text-wrap>{{information.spoken_languages[0].english_name}}</ion-label>
-      </ion-item>
+<ion-content *ngIf="information" padding>
+  <router-outlet class="router-flex" (activate)="onActivate($event)"></router-outlet>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <img  class="img-wrapper" 
+        [src]='"https://image.tmdb.org/t/p/w500" + information.poster_path'>
+      </ion-col>
+      <ion-col size="7">
+        <h3> {{information.title}} 
+          <ion-text class="header-date" color="dark"> 
+            ({{information.release_date}})  
+          </ion-text> 
+        </h3>
+        <ion-text style="font-style: italic;" color="medium"> 
+          "{{information.tagline}}"
+        </ion-text>
+        <p class="overview">
+          {{information.overview}}
+        <p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-      <ion-button   expand="block" (click)="openWebsite()"
-      *ngIf="information.homepage && information.homepage != null">
-        Open Website
-    </ion-button>
+  <h3>Cast</h3>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngIf="cast[0]" class="cast-card">
+        <img class="cast-img" [src]='cast[0].profile_path'>
+        <h5>{{cast[0].name}}</h5>
+        <ion-text color="medium">{{cast[0].character}}</ion-text>
+      </ion-col>
+      <ion-col *ngIf="cast[1]" class="cast-card">
+        <img class="cast-img" [src]='cast[1].profile_path'>
+        <h5>{{cast[1].name}}</h5>
+        <ion-text color="medium">{{cast[1].character}}</ion-text>
+      </ion-col>
+      <ion-col *ngIf="cast[2]" class="cast-card">
+        <img class="cast-img" [src]='cast[2].profile_path'>
+        <h5>{{cast[2].name}}</h5>
+        <ion-text color="medium">{{cast[2].character}}</ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button expand="full" mode="ios" fill="outline" color="">
+    See Cast
+    <ion-icon mode="ios" name="arrow-forward"></ion-icon>
+  </ion-button>
+
+  <h3>Similiar Movies</h3>
+  <ion-list>
+    <ion-item [routerLink]="'/tabs/tab1/' + item.id" 
+    *ngFor="let item of similiarMovies">
+      <ion-avatar slot="start">
+        <img [src]='"https://image.tmdb.org/t/p/w500" + item.poster_path' 
+        *ngIf="item.poster_path != null">
+      </ion-avatar>
+      <ion-label>
+        <b>{{item.original_title}}</b>
+        ({{item.release_date}})
+      </ion-label>
+    </ion-item>  
+  </ion-list>
+  
 
   
 
-    </ion-card-content>
-    
-  </ion-card>
-  <ion-fab vertical="bottom" horizontal="end" activated="true" edge slot="fixed">
-  <ion-fab-button  color="primary"  (click)="presentActionSheet()">
-
-    <ion-icon name="add-outline"></ion-icon>
-
-  </ion-fab-button>
-  </ion-fab>
+  <!--<ion-button   expand="block" (click)="openWebsite()"
+      *ngIf="information.homepage && information.homepage != null">
+        Open Website
+  </ion-button>-->
+  
 </ion-content>
 
 
