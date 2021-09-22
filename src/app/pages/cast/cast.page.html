@@ -1,0 +1,25 @@
+<ion-header  mode="ios">
+  <ion-toolbar color="primary">
+    <ion-buttons mode="ios" slot="start">
+      <ion-back-button defaultHref="/search"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Cast
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let item of cast">
+      <ion-avatar slot="start">
+        <img [src]='item.profile_path' 
+        *ngIf="item.profile_path != null">
+      </ion-avatar>
+      <ion-label>
+        <b>{{item.name}}</b>
+        ({{item.character}})
+      </ion-label>
+    </ion-item>  
+  </ion-list>
+</ion-content>

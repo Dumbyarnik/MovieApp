@@ -33,7 +33,7 @@ export class MoviesDetailsPage implements OnInit {
   similiarMovies: any[] = [];
 
   // variables for icon colors
-  //showDiary
+  // showDiary
   showWatchlist: boolean;
   showDiary: boolean;
 
@@ -86,17 +86,21 @@ export class MoviesDetailsPage implements OnInit {
     // setting colors
     this.showWatchlist = this.moviesService.isMovieInWatchlist(this.id);
     this.showDiary = this.moviesService.isMovieInDiary(this.id);
-    console.log(this.showDiary);
   }
 
   // edit and move in diary buttons in actionsheet
   goToEdit(){
-    this.router.navigate(['/tabs/tab2/edit/' + this.id]);
+    this.router.navigate(['/search/edit/' + this.id]);
   }
 
   // button - open website
   openWebsite(){
     window.open(this.information.homepage, '_blank');
+  }
+
+  // button for watching the cast
+  openCast(){
+    this.router.navigate(['/search/cast/' + this.id]);
   }
 
   // button - ActionSheet

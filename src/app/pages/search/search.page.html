@@ -12,12 +12,11 @@
     <ion-searchbar mode="ios" [(ngModel)]="searchTerm" 
   (ionChange)="searchChanged($event)"></ion-searchbar>
   </ion-toolbar>
-
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item [routerLink]="'/tabs/tab1/' + item.id" 
+    <ion-item [routerLink]="['/search/' + item.id]" 
     *ngFor="let item of moviesArray">
       <ion-avatar slot="start">
         <img [src]='"https://image.tmdb.org/t/p/w500" + item.poster_path' 

@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiService } from '../services/api/api.service';
 import { IonInfiniteScroll } from '@ionic/angular';
+import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-search',
+  templateUrl: './search.page.html',
+  styleUrls: ['./search.page.scss'],
 })
+export class SearchPage implements OnInit {
 
-export class Tab1Page implements OnInit  {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   // for getting information from api
@@ -110,7 +110,5 @@ export class Tab1Page implements OnInit  {
   toggleInfiniteScroll() {
     this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
   }
-
-
 
 }

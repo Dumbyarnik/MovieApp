@@ -1,7 +1,7 @@
 <ion-header mode="ios">
   <ion-toolbar color="primary">
     <ion-buttons mode="ios" slot="start">
-      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+      <ion-back-button defaultHref="/search"></ion-back-button>
     </ion-buttons>
 
     <!--<ion-icon *ngIf="showWatchlist" slot="end" color="secondary" name="eye"></ion-icon>
@@ -65,14 +65,14 @@
     </ion-row>
   </ion-grid>
   
-  <ion-button expand="full" mode="ios" fill="outline" color="">
+  <ion-button (click)="openCast()" expand="full" mode="ios" fill="outline" color="">
     See Cast
     <ion-icon mode="ios" name="arrow-forward"></ion-icon>
   </ion-button>
 
   <h3>Similiar Movies</h3>
   <ion-list>
-    <ion-item [routerLink]="'/tabs/tab1/' + item.id" 
+    <ion-item [routerLink]="['/search/' + item.id]" 
     *ngFor="let item of similiarMovies">
       <ion-avatar slot="start">
         <img [src]='"https://image.tmdb.org/t/p/w500" + item.poster_path' 

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@capacitor/storage';
-import { MoviesService } from '../services/movies/movies.service';
+import { MoviesService } from 'src/app/services/movies/movies.service';
 
 @Component({
-  selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss']
+  selector: 'app-storage',
+  templateUrl: './storage.page.html',
+  styleUrls: ['./storage.page.scss'],
 })
-export class Tab3Page implements OnInit {
+export class StoragePage implements OnInit {
 
   constructor(private moviesService: MoviesService) {}
 

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { MoviesService } from '../services/movies/movies.service';
 import { Router } from '@angular/router';
-@Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
-})
+import { MoviesService } from 'src/app/services/movies/movies.service';
 
-export class Tab2Page implements OnInit {
+@Component({
+  selector: 'app-lists',
+  templateUrl: './lists.page.html',
+  styleUrls: ['./lists.page.scss'],
+})
+export class ListsPage implements OnInit {
 
   selectedView = 'watchlist';
 
@@ -40,12 +40,19 @@ export class Tab2Page implements OnInit {
     });
   }
 
-async removeFromWatchList(item){
-  this.moviesService.deleteToWatchlist(item.id);
+async removeFromWatchList(id: string){
+  this.moviesService.deleteToWatchlist(id);
 }
 
-async addtoWatched(item){
-  this.route.navigate(['/tabs/tab2/edit/' + item.id]);
+async addtoWatched(id: string){
+  this.route.navigate(['/tabs/tab2/edit/' + id]);
 }
 
+async saveToWatchlist(id: string){
+  this.moviesService.saveToWatchlist(id);
+}
+
+async removeFromDiary(id: string){
+  this.moviesService.deleteFromDiary(id);
+}
 }
