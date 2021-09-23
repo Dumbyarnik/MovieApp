@@ -110,7 +110,6 @@ export class MoviesService {
   }
 
   async deleteFromDiary(id: string){
-    console.log(id);
     var user = await Storage.get({ key: 'user'});
     var data = JSON.parse(user.value);
 
