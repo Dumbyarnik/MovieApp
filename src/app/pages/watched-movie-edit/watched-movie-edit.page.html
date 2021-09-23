@@ -1,7 +1,7 @@
 <ion-header mode="ios">
   <ion-toolbar color="primary">
     <ion-buttons mode="ios" slot="start">
-      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+      <ion-back-button defaultHref="/search"></ion-back-button>
     </ion-buttons>
     <ion-title>{{information?.title}}</ion-title>
   </ion-toolbar>
@@ -26,5 +26,7 @@
     </ion-textarea>
   </ion-item>
 
-  <ion-button (click)="submit()">Submit</ion-button>
+  <ion-button (click)="submit()" expand="full" mode="ios" fill="solid">
+    Submit
+  </ion-button>
 </ion-content>
