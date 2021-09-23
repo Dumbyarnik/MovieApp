@@ -117,6 +117,12 @@ export class MoviesDetailsPage implements OnInit {
     this.router.navigate(['/search/edit/' + this.id]);
   }
 
+  // home button (goes to search)
+  homeButton(){
+    this.router.navigate(['/search']);
+  }
+
+
   // button - open website
   openWebsite(){
     window.open(this.information.homepage, '_blank');
@@ -258,6 +264,7 @@ export class MoviesDetailsPage implements OnInit {
           {
             text: 'Delete from Watchlist',
             icon: 'eye',
+            role: 'destructive',
             handler: () => {
               this.moviesService.deleteToWatchlist(this.id);
               this.showWatchlist = false;
@@ -265,14 +272,15 @@ export class MoviesDetailsPage implements OnInit {
           },
           {
             text: 'Edit',
-            icon: 'heart',
+            icon: 'folder-open',
             handler: () => {
               this.goToEdit();
             }
           },
           {
             text: 'Delete from Diary',
-            icon: 'heart',
+            icon: 'folder-open',
+            role: 'destructive',
             handler: () => {
               this.moviesService.deleteFromDiary(this.id);
             }
