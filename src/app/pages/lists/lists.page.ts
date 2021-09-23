@@ -40,19 +40,19 @@ export class ListsPage implements OnInit {
     });
   }
 
-async removeFromWatchlist(id: string){
-  this.moviesService.deleteToWatchlist(id);
-}
+  async removeFromWatchlist(id: string){
+    this.moviesService.deleteToWatchlist(id);
+  }
 
-async addToDiary(id: string){
-  this.route.navigate(['/search/edit/' + id]);
-}
+  async addToDiary(id: string){
+    this.route.navigate(['/search/edit/' + id]);
+  }
 
-async saveToWatchlist(id: string){
-  this.moviesService.saveToWatchlist(id);
-}
+  async saveToWatchlist(id: string){
+    this.moviesService.saveToWatchlist(id);
+  }
 
-async removeFromDiary(id: string){
-  this.moviesService.deleteFromDiary(id);
-}
+  async removeFromDiary(id: string){
+    this.moviesService.deleteFromDiary(id);
+  }
 }
