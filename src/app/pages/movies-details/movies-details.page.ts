@@ -116,7 +116,8 @@ export class MoviesDetailsPage implements OnInit {
 
         buttons: [
           {
-            text: 'Move Out of Watchlist',
+            text: 'Delete from Watchlist',
+            role: 'destructive',
             icon: 'eye',
             handler: () => {
               this.moviesService.deleteToWatchlist(this.id);
@@ -124,8 +125,8 @@ export class MoviesDetailsPage implements OnInit {
             }
           },
           {
-            text: 'Move To Diary',
-            icon: 'heart',
+            text: 'Save to Diary',
+            icon: 'folder-open',
             handler: () => {
               this.goToEdit();
             }
@@ -135,7 +136,6 @@ export class MoviesDetailsPage implements OnInit {
             icon: 'close',
             role: 'cancel',
             handler: () => {
-              //console.log('Cancel clicked');
             }
           }
         ],
@@ -152,7 +152,7 @@ export class MoviesDetailsPage implements OnInit {
 
         buttons: [
           {
-            text: 'Move In Watchlist',
+            text: 'Save to Watchlist',
             icon: 'eye',
             handler: () => {
               this.moviesService.saveToWatchlist(this.id);
@@ -161,14 +161,14 @@ export class MoviesDetailsPage implements OnInit {
           },
           {
             text: 'Edit',
-            icon: 'heart',
+            icon: 'folder-open',
             handler: () => {
               this.goToEdit();
             }
           }, 
           {
-            text: 'Move Out Of Diary',
-            icon: 'trash',
+            text: 'Delete from Diary',
+            icon: 'folder-open',
             role: 'destructive',
             handler: () => {
               this.moviesService.deleteFromDiary(this.id);
@@ -196,7 +196,7 @@ export class MoviesDetailsPage implements OnInit {
 
         buttons: [
           {
-            text: 'Move In Watchlist',
+            text: 'Save to Watchlist',
             icon: 'eye',
             handler: () => {
               this.moviesService.saveToWatchlist(this.id);
@@ -204,8 +204,8 @@ export class MoviesDetailsPage implements OnInit {
             }
           },
           {
-            text: 'Move In Diary',
-            icon: 'heart',
+            text: 'Save to Diary',
+            icon: 'folder-open',
             handler: () => {
               this.goToEdit();
             }
@@ -232,7 +232,7 @@ export class MoviesDetailsPage implements OnInit {
 
         buttons: [
           {
-            text: 'Move Out Of Watchlist',
+            text: 'Delete from Watchlist',
             icon: 'eye',
             handler: () => {
               this.moviesService.deleteToWatchlist(this.id);
@@ -247,7 +247,7 @@ export class MoviesDetailsPage implements OnInit {
             }
           },
           {
-            text: 'Move Out of Diary',
+            text: 'Delete from Diary',
             icon: 'heart',
             handler: () => {
               this.moviesService.deleteFromDiary(this.id);
