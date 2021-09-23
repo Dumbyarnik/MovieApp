@@ -55,9 +55,7 @@ export class MoviesDetailsPage implements OnInit {
 
       // checking the poster information
       if (this.information.poster_path == undefined){
-        this.information.poster_path = "https://akns-images.eonline.com/eol_images/" + 
-          "Entire_Site/20171115/rs_634x822-171215083457-634.matt-damon" + 
-          ".121517.jpg?fit=inside%7C900:auto&output-quality=90";
+        this.information.poster_path = "https://img.fruugo.com/product/8/89/14259898_max.jpg";
       } else {
         this.information.poster_path = "https://image.tmdb.org/t/p/w500" + 
           this.information.poster_path;
@@ -155,7 +153,7 @@ export class MoviesDetailsPage implements OnInit {
             }
           },
           {
-            text: 'Save to Diary',
+            text: 'Save to Watched',
             icon: 'folder-open',
             handler: () => {
               this.goToEdit();
@@ -197,7 +195,7 @@ export class MoviesDetailsPage implements OnInit {
             }
           }, 
           {
-            text: 'Delete from Diary',
+            text: 'Delete from Watched',
             icon: 'folder-open',
             role: 'destructive',
             handler: () => {
@@ -233,7 +231,7 @@ export class MoviesDetailsPage implements OnInit {
             }
           },
           {
-            text: 'Save to Diary',
+            text: 'Save to Watched',
             icon: 'folder-open',
             handler: () => {
               this.goToEdit();
@@ -276,7 +274,7 @@ export class MoviesDetailsPage implements OnInit {
             }
           },
           {
-            text: 'Delete from Diary',
+            text: 'Delete from Watched',
             icon: 'folder-open',
             role: 'destructive',
             handler: () => {

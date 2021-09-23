@@ -47,9 +47,7 @@ export class SearchPage implements OnInit {
       for (var i in this.moviesArray){
         // checking the poster information
         if (this.moviesArray[i].poster_path == undefined){
-          this.moviesArray[i].poster_path = "https://akns-images.eonline.com/eol_images/" + 
-            "Entire_Site/20171115/rs_634x822-171215083457-634.matt-damon" + 
-            ".121517.jpg?fit=inside%7C900:auto&output-quality=90";
+          this.moviesArray[i].poster_path = "https://img.fruugo.com/product/8/89/14259898_max.jpg";
         } else {
           this.moviesArray[i].poster_path = "https://image.tmdb.org/t/p/w500" + 
           this.moviesArray[i].poster_path;
@@ -89,9 +87,8 @@ export class SearchPage implements OnInit {
 
         // checking the poster information
         if (tmpArray[i].poster_path == undefined){
-          tmpArray[i].poster_path = "https://akns-images.eonline.com/eol_images/" + 
-            "Entire_Site/20171115/rs_634x822-171215083457-634.matt-damon" + 
-            ".121517.jpg?fit=inside%7C900:auto&output-quality=90";
+          console.log(tmpArray[i].poster_path);
+          tmpArray[i].poster_path = "https://img.fruugo.com/product/8/89/14259898_max.jpg";
         } else {
           tmpArray[i].poster_path = "https://image.tmdb.org/t/p/w500" + 
             tmpArray[i].poster_path;

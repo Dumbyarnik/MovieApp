@@ -34,7 +34,15 @@ export class DiaryViewPage implements OnInit {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.apiService.getDetails(this.id).subscribe(result =>{
       this.information = result;
+      if (this.information.poster_path == undefined){
+        this.information.poster_path = "https://img.fruugo.com/product/8/89/14259898_max.jpg";
+      } else {
+        this.information.poster_path = "https://image.tmdb.org/t/p/w500" + 
+          this.information.poster_path;
+      }
     });
+
+    
 
     // checking if the movie is in diary
     // and therefore setting stars and review
@@ -74,6 +82,7 @@ export class DiaryViewPage implements OnInit {
     await Share.share({
       title: 'Movie: ' + this.information.title,
       text: 'Review: "' + this.review + '", Stars: ' + this.stars,
+      url: this.information.poster_path,
       dialogTitle: 'Share with friends',
     });
   }
@@ -112,7 +121,7 @@ export class DiaryViewPage implements OnInit {
             }
           }, 
           {
-            text: 'Delete from Diary',
+            text: 'Delete from Watched',
             icon: 'folder-open',
             role: 'destructive',
             handler: () => {
@@ -161,7 +170,7 @@ export class DiaryViewPage implements OnInit {
             }
           }, 
           {
-            text: 'Save in Diary',
+            text: 'Save in Watched',
             icon: 'folder-open',
             role: 'destructive',
             handler: () => {
