@@ -32,8 +32,14 @@ export class CastPage implements OnInit {
         let tmpActor = {} as Actor;
         tmpActor.character = this.castObservable.cast[i].character;
         tmpActor.name = this.castObservable.cast[i].name;
-        tmpActor.profile_path = "https://image.tmdb.org/t/p/h632" + 
+        if (this.castObservable.cast[i].profile_path == undefined){
+          tmpActor.profile_path = "https://akns-images.eonline.com/eol_images/" + 
+          "Entire_Site/20171115/rs_634x822-171215083457-634.matt-damon" + 
+          ".121517.jpg?fit=inside%7C900:auto&output-quality=90";
+        } else {
+          tmpActor.profile_path = "https://image.tmdb.org/t/p/h632" + 
           this.castObservable.cast[i].profile_path;
+        }
         this.cast.push(tmpActor);
         
       }

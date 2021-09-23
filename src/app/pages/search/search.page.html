@@ -19,7 +19,7 @@
     <ion-item [routerLink]="['/search/' + item.id]" 
     *ngFor="let item of moviesArray">
       <ion-avatar slot="start">
-        <img [src]='"https://image.tmdb.org/t/p/w500" + item.poster_path' 
+        <img [src]='item.poster_path' 
         *ngIf="item.poster_path != null">
       </ion-avatar>
       <ion-label>

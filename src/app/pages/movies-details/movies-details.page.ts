@@ -52,7 +52,23 @@ export class MoviesDetailsPage implements OnInit {
     // getting details about the movie
     this.apiService.getDetails(this.id).subscribe(result =>{
       this.information = result;
-      this.information.release_date = this.information.release_date.substr(0, 4);
+
+      // checking the poster information
+      if (this.information.poster_path == undefined){
+        this.information.poster_path = "https://akns-images.eonline.com/eol_images/" + 
+          "Entire_Site/20171115/rs_634x822-171215083457-634.matt-damon" + 
+          ".121517.jpg?fit=inside%7C900:auto&output-quality=90";
+      } else {
+        this.information.poster_path = "https://image.tmdb.org/t/p/w500" + 
+          this.information.poster_path;
+      }
+
+      // checking the release date information
+      if (this.information.release_date == undefined){
+        this.information.release_date = "n/a";
+      } else {
+        this.information.release_date = this.information.release_date.substr(0, 4);
+      }
     });
     // getting cast information 
     this.apiService.getCast(this.id).subscribe(result =>{
@@ -61,8 +77,16 @@ export class MoviesDetailsPage implements OnInit {
         let tmpActor = {} as Actor;
         tmpActor.character = this.castObservable.cast[i].character;
         tmpActor.name = this.castObservable.cast[i].name;
-        tmpActor.profile_path = "https://image.tmdb.org/t/p/h632" + 
+
+        if (this.castObservable.cast[i].profile_path == undefined){
+          tmpActor.profile_path = "https://akns-images.eonline.com/eol_images/" + 
+            "Entire_Site/20171115/rs_634x822-171215083457-634.matt-damon" + 
+            ".121517.jpg?fit=inside%7C900:auto&output-quality=90";
+        } else {
+          tmpActor.profile_path = "https://image.tmdb.org/t/p/h632" + 
           this.castObservable.cast[i].profile_path;
+        }
+
         this.cast.push(tmpActor);
       }
     });

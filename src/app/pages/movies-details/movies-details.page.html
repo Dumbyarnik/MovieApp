@@ -26,7 +26,7 @@
     <ion-row>
       <ion-col size="4">
         <img  class="info-img" 
-        [src]='"https://image.tmdb.org/t/p/w500" + information.poster_path'>
+        [src]='information.poster_path'>
       </ion-col>
       <ion-col size="7">
         <h3> {{information.title}} 
@@ -48,7 +48,7 @@
   <ion-grid>
     <ion-row>
       <ion-col *ngIf="cast[0]" class="cast-card">
-        <img class="cast-img" [src]='cast[0].profile_path'>
+        <img  *ngIf="cast[0].profile_path" class="cast-img" [src]='cast[0].profile_path'>
         <h5 class="header-card">{{cast[0].name}}</h5>
         <ion-text color="medium">{{cast[0].character}}</ion-text>
       </ion-col>
