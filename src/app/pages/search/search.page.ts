@@ -45,6 +45,17 @@ export class SearchPage implements OnInit {
       this.moviesArray = res.results;
       this.total_pages = res.total_pages;
       for (var i in this.moviesArray){
+        // checking the poster information
+        if (this.moviesArray[i].poster_path == undefined){
+          this.moviesArray[i].poster_path = "https://akns-images.eonline.com/eol_images/" + 
+            "Entire_Site/20171115/rs_634x822-171215083457-634.matt-damon" + 
+            ".121517.jpg?fit=inside%7C900:auto&output-quality=90";
+        } else {
+          this.moviesArray[i].poster_path = "https://image.tmdb.org/t/p/w500" + 
+          this.moviesArray[i].poster_path;
+        }
+
+        // checking the release date information
         if (this.moviesArray[i].release_date == undefined){
           this.moviesArray[i].release_date = "n/a"
         }
@@ -76,6 +87,19 @@ export class SearchPage implements OnInit {
 
       for (var i in tmpArray){
 
+        // checking the poster information
+        if (tmpArray[i].poster_path == undefined){
+          tmpArray[i].poster_path = "https://akns-images.eonline.com/eol_images/" + 
+            "Entire_Site/20171115/rs_634x822-171215083457-634.matt-damon" + 
+            ".121517.jpg?fit=inside%7C900:auto&output-quality=90";
+        } else {
+          tmpArray[i].poster_path = "https://image.tmdb.org/t/p/w500" + 
+            tmpArray[i].poster_path;
+        }
+
+        console.log('huy');
+
+        // checking the release date information
         if (tmpArray[i].release_date == undefined){
           tmpArray[i].release_date = "n/a"
         }

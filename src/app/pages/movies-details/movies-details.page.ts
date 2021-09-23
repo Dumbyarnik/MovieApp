@@ -52,7 +52,23 @@ export class MoviesDetailsPage implements OnInit {
     // getting details about the movie
     this.apiService.getDetails(this.id).subscribe(result =>{
       this.information = result;
-      this.information.release_date = this.information.release_date.substr(0, 4);
+
+      // checking the poster information
+      if (this.information.poster_path == undefined){
+        this.information.poster_path = "https://akns-images.eonline.com/eol_images/" + 
+          "Entire_Site/20171115/rs_634x822-171215083457-634.matt-damon" + 
+          ".121517.jpg?fit=inside%7C900:auto&output-quality=90";
+      } else {
+        this.information.poster_path = "https://image.tmdb.org/t/p/w500" + 
+          this.information.poster_path;
+      }
+
+      // checking the release date information
+      if (this.information.release_date == undefined){
+        this.information.release_date = "n/a";
+      } else {
+        this.information.release_date = this.information.release_date.substr(0, 4);
+      }
     });
     // getting cast information 
     this.apiService.getCast(this.id).subscribe(result =>{
@@ -61,8 +77,16 @@ export class MoviesDetailsPage implements OnInit {
         let tmpActor = {} as Actor;
         tmpActor.character = this.castObservable.cast[i].character;
         tmpActor.name = this.castObservable.cast[i].name;
-        tmpActor.profile_path = "https://image.tmdb.org/t/p/h632" + 
+
+        if (this.castObservable.cast[i].profile_path == undefined){
+          tmpActor.profile_path = "https://akns-images.eonline.com/eol_images/" + 
+            "Entire_Site/20171115/rs_634x822-171215083457-634.matt-damon" + 
+            ".121517.jpg?fit=inside%7C900:auto&output-quality=90";
+        } else {
+          tmpActor.profile_path = "https://image.tmdb.org/t/p/h632" + 
           this.castObservable.cast[i].profile_path;
+        }
+
         this.cast.push(tmpActor);
       }
     });
@@ -116,7 +140,8 @@ export class MoviesDetailsPage implements OnInit {
 
         buttons: [
           {
-            text: 'Move Out of Watchlist',
+            text: 'Delete from Watchlist',
+            role: 'destructive',
             icon: 'eye',
             handler: () => {
               this.moviesService.deleteToWatchlist(this.id);
@@ -124,8 +149,8 @@ export class MoviesDetailsPage implements OnInit {
             }
           },
           {
-            text: 'Move To Diary',
-            icon: 'heart',
+            text: 'Save to Diary',
+            icon: 'folder-open',
             handler: () => {
               this.goToEdit();
             }
@@ -135,7 +160,6 @@ export class MoviesDetailsPage implements OnInit {
             icon: 'close',
             role: 'cancel',
             handler: () => {
-              //console.log('Cancel clicked');
             }
           }
         ],
@@ -152,7 +176,7 @@ export class MoviesDetailsPage implements OnInit {
 
         buttons: [
           {
-            text: 'Move In Watchlist',
+            text: 'Save to Watchlist',
             icon: 'eye',
             handler: () => {
               this.moviesService.saveToWatchlist(this.id);
@@ -161,14 +185,14 @@ export class MoviesDetailsPage implements OnInit {
           },
           {
             text: 'Edit',
-            icon: 'heart',
+            icon: 'folder-open',
             handler: () => {
               this.goToEdit();
             }
           }, 
           {
-            text: 'Move Out Of Diary',
-            icon: 'trash',
+            text: 'Delete from Diary',
+            icon: 'folder-open',
             role: 'destructive',
             handler: () => {
               this.moviesService.deleteFromDiary(this.id);
@@ -196,7 +220,7 @@ export class MoviesDetailsPage implements OnInit {
 
         buttons: [
           {
-            text: 'Move In Watchlist',
+            text: 'Save to Watchlist',
             icon: 'eye',
             handler: () => {
               this.moviesService.saveToWatchlist(this.id);
@@ -204,8 +228,8 @@ export class MoviesDetailsPage implements OnInit {
             }
           },
           {
-            text: 'Move In Diary',
-            icon: 'heart',
+            text: 'Save to Diary',
+            icon: 'folder-open',
             handler: () => {
               this.goToEdit();
             }
@@ -232,7 +256,7 @@ export class MoviesDetailsPage implements OnInit {
 
         buttons: [
           {
-            text: 'Move Out Of Watchlist',
+            text: 'Delete from Watchlist',
             icon: 'eye',
             handler: () => {
               this.moviesService.deleteToWatchlist(this.id);
@@ -247,7 +271,7 @@ export class MoviesDetailsPage implements OnInit {
             }
           },
           {
-            text: 'Move Out of Diary',
+            text: 'Delete from Diary',
             icon: 'heart',
             handler: () => {
               this.moviesService.deleteFromDiary(this.id);

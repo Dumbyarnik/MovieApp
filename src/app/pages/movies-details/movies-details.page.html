@@ -25,8 +25,8 @@
   <ion-grid>
     <ion-row>
       <ion-col size="4">
-        <img  class="img-wrapper" 
-        [src]='"https://image.tmdb.org/t/p/w500" + information.poster_path'>
+        <img  class="info-img" 
+        [src]='information.poster_path'>
       </ion-col>
       <ion-col size="7">
         <h3> {{information.title}} 
@@ -34,7 +34,7 @@
             ({{information.release_date}})  
           </ion-text> 
         </h3>
-        <ion-text style="font-style: italic;" color="medium"> 
+        <ion-text *ngIf="information.tagline" style="font-style: italic;" color="medium"> 
           "{{information.tagline}}"
         </ion-text>
         <p class="overview">
@@ -44,33 +44,35 @@
     </ion-row>
   </ion-grid>
 
-  <h3>Cast</h3>
+  <h3 class="header">Cast</h3>
   <ion-grid>
     <ion-row>
       <ion-col *ngIf="cast[0]" class="cast-card">
-        <img class="cast-img" [src]='cast[0].profile_path'>
-        <h5>{{cast[0].name}}</h5>
+        <img  *ngIf="cast[0].profile_path" class="cast-img" [src]='cast[0].profile_path'>
+        <h5 class="header-card">{{cast[0].name}}</h5>
         <ion-text color="medium">{{cast[0].character}}</ion-text>
       </ion-col>
       <ion-col *ngIf="cast[1]" class="cast-card">
         <img class="cast-img" [src]='cast[1].profile_path'>
-        <h5>{{cast[1].name}}</h5>
+        <h5 class="header-card">{{cast[1].name}}</h5>
         <ion-text color="medium">{{cast[1].character}}</ion-text>
       </ion-col>
       <ion-col *ngIf="cast[2]" class="cast-card">
         <img class="cast-img" [src]='cast[2].profile_path'>
-        <h5>{{cast[2].name}}</h5>
+        <h5 class="header-card">{{cast[2].name}}</h5>
         <ion-text color="medium">{{cast[2].character}}</ion-text>
       </ion-col>
     </ion-row>
   </ion-grid>
   
-  <ion-button (click)="openCast()" expand="full" mode="ios" fill="outline" color="">
+  <ion-button (click)="openCast()" expand="full" mode="ios" fill="outline">
     See Cast
     <ion-icon mode="ios" name="arrow-forward"></ion-icon>
   </ion-button>
 
-  <h3>Similiar Movies</h3>
+  <br>
+
+  <h3 class="header">Similiar Movies</h3>
   <ion-list>
     <ion-item [routerLink]="['/search/' + item.id]" 
     *ngFor="let item of similiarMovies">
