@@ -5,6 +5,9 @@ import { ApiService } from 'src/app/services/api/api.service';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Storage } from '@capacitor/storage';
 import { Share } from '@capacitor/share';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+
+
 
 @Component({
   selector: 'app-diary-view',
@@ -79,10 +82,20 @@ export class DiaryViewPage implements OnInit {
 
   // share button
   async shareMovie(){
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera
+    });
+    var imageUrl = image.webPath;
+
     await Share.share({
       title: 'Movie: ' + this.information.title,
-      text: 'Review: "' + this.review + '", Stars: ' + this.stars,
-      url: this.information.poster_path,
+      text: 'The movie: ' + this.information.title + 
+      'Review: "' + this.review + '", Stars: ' + this.stars +
+      '. Check out new movie app!',
+      url: image.path,
       dialogTitle: 'Share with friends',
     });
   }
