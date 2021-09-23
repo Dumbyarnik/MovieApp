@@ -65,7 +65,6 @@ export class DatabaseService {
     }
 
     loadUsers() {
-      console.log("we are in loadUsers");
       return this.database.executeSql('SELECT * FROM users', []).then(data => {
         let users: User[] = [];
    
@@ -80,12 +79,10 @@ export class DatabaseService {
           }
         }
         this.users.next(users);
-        console.log("our users loadUsers", JSON.stringify(this.users));
       });
     }
 
     addUser(name, password) {
-      console.log("we are in addUser");
       let data = [name, password];
       /*return this.database.executeSql('INSERT INTO users (name, password) VALUES (?, ?)', data).then(data => {
         this.loadUsers();

@@ -43,7 +43,6 @@ export class CastPage implements OnInit {
         this.cast.push(tmpActor);
         
       }
-      console.log(this.cast);
     });
   }
 

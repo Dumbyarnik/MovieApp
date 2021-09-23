@@ -124,7 +124,6 @@ export class DiaryViewPage implements OnInit {
             icon: 'close',
             role: 'cancel',
             handler: () => {
-              //console.log('Cancel clicked');
             }
           }
         ],
@@ -174,7 +173,6 @@ export class DiaryViewPage implements OnInit {
             icon: 'close',
             role: 'cancel',
             handler: () => {
-              //console.log('Cancel clicked');
             }
           }
         ],

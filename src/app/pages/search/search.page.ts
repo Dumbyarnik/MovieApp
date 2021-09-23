@@ -97,8 +97,6 @@ export class SearchPage implements OnInit {
             tmpArray[i].poster_path;
         }
 
-        console.log('huy');
-
         // checking the release date information
         if (tmpArray[i].release_date == undefined){
           tmpArray[i].release_date = "n/a"

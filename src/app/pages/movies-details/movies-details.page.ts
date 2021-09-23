@@ -209,7 +209,6 @@ export class MoviesDetailsPage implements OnInit {
             icon: 'close',
             role: 'cancel',
             handler: () => {
-              //console.log('Cancel clicked');
             }
           }
         ],
@@ -245,7 +244,6 @@ export class MoviesDetailsPage implements OnInit {
             icon: 'close',
             role: 'cancel',
             handler: () => {
-              //console.log('Cancel clicked');
             }
           }
         ],
@@ -290,7 +288,6 @@ export class MoviesDetailsPage implements OnInit {
             icon: 'close',
             role: 'cancel',
             handler: () => {
-              //console.log('Cancel clicked');
             }
           }
         ],
