@@ -4,6 +4,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Storage } from '@capacitor/storage';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-diary-view',
@@ -68,6 +69,15 @@ export class DiaryViewPage implements OnInit {
     this.route.navigate(['/search/' + this.id]);
   }
 
+  // share button
+  async shareMovie(){
+    await Share.share({
+      title: 'Movie: ' + this.information.title,
+      text: 'Review: "' + this.review + '", Stars: ' + this.stars,
+      dialogTitle: 'Share with friends',
+    });
+  }
+
   // button - ActionSheet
   async presentActionSheet(){
 
@@ -80,6 +90,13 @@ export class DiaryViewPage implements OnInit {
 
         header: 'what to do',
         buttons: [
+          {
+            text: 'Share',
+            icon: 'eye',
+            handler: () => {
+              this.shareMovie();
+            }
+          },
           {
             text: 'Move Out of Watchlist',
             icon: 'eye',
@@ -124,6 +141,13 @@ export class DiaryViewPage implements OnInit {
 
         header: 'what to do',
         buttons: [
+          {
+            text: 'Share',
+            icon: 'eye',
+            handler: () => {
+              this.shareMovie();
+            }
+          },
           {
             text: 'Move In Watchlist',
             icon: 'eye',
