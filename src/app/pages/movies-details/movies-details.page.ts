@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ApiService } from 'src/app/services/api/api.service';
 import { MoviesService } from 'src/app/services/movies/movies.service';
 import { Router } from '@angular/router';
@@ -116,6 +116,12 @@ export class MoviesDetailsPage implements OnInit {
   goToEdit(){
     this.router.navigate(['/search/edit/' + this.id]);
   }
+
+  // home button (goes to search)
+  homeButton(){
+    this.router.navigate(['/search']);
+  }
+
 
   // button - open website
   openWebsite(){
@@ -258,6 +264,7 @@ export class MoviesDetailsPage implements OnInit {
           {
             text: 'Delete from Watchlist',
             icon: 'eye',
+            role: 'destructive',
             handler: () => {
               this.moviesService.deleteToWatchlist(this.id);
               this.showWatchlist = false;
@@ -265,14 +272,15 @@ export class MoviesDetailsPage implements OnInit {
           },
           {
             text: 'Edit',
-            icon: 'heart',
+            icon: 'folder-open',
             handler: () => {
               this.goToEdit();
             }
           },
           {
             text: 'Delete from Diary',
-            icon: 'heart',
+            icon: 'folder-open',
+            role: 'destructive',
             handler: () => {
               this.moviesService.deleteFromDiary(this.id);
             }

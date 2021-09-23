@@ -92,13 +92,13 @@ export class DiaryViewPage implements OnInit {
         buttons: [
           {
             text: 'Share',
-            icon: 'eye',
+            icon: 'share',
             handler: () => {
               this.shareMovie();
             }
           },
           {
-            text: 'Move Out of Watchlist',
+            text: 'Delete from Watchlist',
             icon: 'eye',
             handler: () => {
               this.moviesService.deleteToWatchlist(this.id);
@@ -106,14 +106,14 @@ export class DiaryViewPage implements OnInit {
           },
           {
             text: 'Edit',
-            icon: 'heart',
+            icon: 'folder-open',
             handler: () => {
               this.goToEdit();
             }
           }, 
           {
-            text: 'Move Out Of Diary',
-            icon: 'trash',
+            text: 'Delete from Diary',
+            icon: 'folder-open',
             role: 'destructive',
             handler: () => {
               this.moviesService.deleteFromDiary(this.id);

@@ -5,11 +5,13 @@ import { ApiService } from '../api/api.service';
 import { first } from 'rxjs/operators'
 
 export interface Movie{
-  id: number;
+  id: string;
   name: string;
   year: string;
   image: string;
   stars: string;
+  isInWatchlist: boolean;
+  isInDiary: boolean;
 }
 
 @Injectable({
@@ -48,8 +50,7 @@ export class MoviesService {
   }
 
   isMovieInWatchlist(id: string): boolean{
-    for (var i in this.movies_want){
-      
+    for (var i in this.movies_want){      
       if (this.movies_want[i].id == id){
         return true;
       }
@@ -69,12 +70,24 @@ export class MoviesService {
   async saveToWatchlist(id: string){
     var user = await Storage.get({ key: 'user'});
     var data = JSON.parse(user.value);
-    data[0].movies_want.push(id);
+
+
+    var tmpIsMovieInWatchlist = false;
+
+    for (var i in data[0].movies_want){
+      if (id == data[0].movies_want[i]){
+        tmpIsMovieInWatchlist = true;
+      }
+    }
+
+    if (tmpIsMovieInWatchlist == false){
+      data[0].movies_want.push(id);
     
-    await Storage.set({
-      key: 'user',
-      value: JSON.stringify(data),
-    });
+      await Storage.set({
+        key: 'user',
+        value: JSON.stringify(data),
+      });
+    }
 
     this.loadMoviesToWatch();
   }
